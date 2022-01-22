@@ -1,12 +1,12 @@
 {
   "name": "skdesktop",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Carlos S.",
-  "description": "Skul Desktop",
+  "description": "Skool Desktop",
   "private": true,
   "build": {
     "appId": "com.skdesktop.app",
-    "productName": "Skul Desktop",
+    "productName": "Skool Desktop",
     "artifactName": "${productName}-Setup-${version}.${ext}",
     "publish": [
       {
@@ -15,7 +15,7 @@
         "repo": "skdesktop-update"
       }
     ],
-    "icon":"build/logo512.png",
+    "icon":"build/skcircularimg.png",
     "mac": {
       "category": "com.productivity.application",
       "target": [
