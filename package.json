@@ -1,12 +1,12 @@
 {
   "name": "skdesktop",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Carlos S.",
   "description": "Skool Desktop",
   "private": true,
   "build": {
     "appId": "com.skdesktop.app",
-    "productName": "Skool Desktop",
+    "productName": "Skool",
     "artifactName": "${productName}-Setup-${version}.${ext}",
     "publish": [
       {
