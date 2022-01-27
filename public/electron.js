@@ -12,7 +12,7 @@ autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
 
-function sendUpdateStatusToWindow(data) {
+const sendUpdateStatusToWindow = (data) => {
   log.info(data);
   const window = getWindow('main');
   window && window.webContents.send('update-message', data);
@@ -65,10 +65,8 @@ autoUpdater.on('update-downloaded', (info) => {
 // })
 
 // autoUpdater.on('error', (err) => {
-// sendUpdateStatusToWindow({state: 'error', message: 'Update Error: ' + err});
+//   sendUpdateStatusToWindow({state: 'error', message: 'Update Error: ' + err});
 // })
-
-
 
 const isAlarmInPresent = alarm => {
   const dateTime = new Date();
@@ -135,8 +133,6 @@ const deleteAlarm = alarmId => {
   ACTIVE_ALARMS = ACTIVE_ALARMS.filter(x => alarmId !== x.id);
   persistAlarms();
 }
-
-setInterval( _ => { })
 
 ipcMain.on('show-notification', (event, title, body) => {
   const notification = new Notification({title, body});

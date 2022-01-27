@@ -51,228 +51,238 @@ const AddButton = ({ onPress, text }) => {
     setAuthLoading(false);
   };
 
-  const handleAuth = () => {
-    return (<AuthModal
-    open={openModal}
-    customHeight={haveAccount ? '45%' : '60%'}
-    customWidth="30%"
-    customLeft="32%"
-    customTop={haveAccount ? '23%' : '18%'}
-    overlayClick={(value) => setOpenModal(true)}
-    content={
-      haveAccount ? (
-        <div
-          style={{
-            backgroundColor: 'lightcoral',
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            width: '100%',
-            justifyContent: 'space-around',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'lightcyan',
-            }}
-          >
-            <FontAwesomeIcon
-              size="lg"
-              icon="graduation-cap"
-              color="black"
-            />
-            <text className={styles.skool}>Skool</text>
+  const HandleAuth = () => {
+    return (
+      <AuthModal
+      open={openModal}
+      customHeight={haveAccount ? '45%' : '60%'}
+      customWidth="30%"
+      customLeft="32%"
+      customTop={haveAccount ? '23%' : '18%'}
+      overlayClick={(value) => setOpenModal(true)}
+      content={
+        <div style={{
+          display: 'flex',
+          height: '100%', width: '100%', 
+          flexDirection: 'column',
+          alignItems: 'flex-end'}}>
+          <div style={{marginBottom: 10, cursor: 'pointer'}} onClick={() => {setOpenModal(false)}}>
+            <FontAwesomeIcon size="lg" icon="times" color="black" />
           </div>
-          <div
-            style={{
-              backgroundColor: 'lightpink',
-              height: '46%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-around',
-            }}
-          >
-            <div>
-              <Input
-                inputValue={email}
-                examplePlaceHolder="Email"
-                inputValueFunction={(e) => setEmail(e.target.value)}
-                inputType="email"
-                customHeight="33px"
-                customWidth="350px"
-                customBorderRadius="100px"
-                customPaddingLeft="30px"
-              />
-            </div>
-            <div>
-              <Input
-                inputValue={password}
-                examplePlaceHolder="Password"
-                inputValueFunction={(e) => setPassword(e.target.value)}
-                inputType="password"
-                customHeight="33px"
-                customWidth="350px"
-                customBorderRadius="100px"
-                customPaddingLeft="30px"
-              />
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Link onClick={() => setHaveAccount(false)}>
-                  Don’t have Account ? Signin
-                </Link>
-
-                <Link>Forget Password ?</Link>
-              </div>
-            </div>
+          <div style={{flex: 1, width: '100%'}}>
+            {
+              haveAccount ? (
+                <div
+                  style={{
+                    backgroundColor: 'lightcoral',
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    width: '100%',
+                    justifyContent: 'space-around',
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'lightcyan',
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      size="lg"
+                      icon="graduation-cap"
+                      color="black"
+                    />
+                    <text className={styles.skool}>Skool</text>
+                  </div>
+                  <div
+                    style={{
+                      backgroundColor: 'lightpink',
+                      height: '46%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-around',
+                    }}
+                  >
+                    <div>
+                      <Input
+                        inputValue={email}
+                        examplePlaceHolder="Email"
+                        inputValueFunction={(e) => setEmail(e.target.value)}
+                        inputType="email"
+                        customHeight="33px"
+                        customWidth="350px"
+                        customBorderRadius="100px"
+                        customPaddingLeft="30px"
+                      />
+                    </div>
+                    <div>
+                      <Input
+                        inputValue={password}
+                        examplePlaceHolder="Password"
+                        inputValueFunction={(e) => setPassword(e.target.value)}
+                        inputType="password"
+                        customHeight="33px"
+                        customWidth="350px"
+                        customBorderRadius="100px"
+                        customPaddingLeft="30px"
+                      />
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <Link to='#' onClick={() => setHaveAccount(false)}>
+                          Don’t have Account ? Signin
+                        </Link>
+      
+                        <Link to='#'>Forget Password ?</Link>
+                      </div>
+                    </div>
+                  </div>
+      
+                  <Button
+                    styleBtn={{
+                      width: 150,
+                      height: 50,
+                      borderRadius: 100,
+                    }}
+                    content={ !authLoading ? <div>Login</div> : <div>Loading...</div>}
+                    onPress={_ => handleLogin(email, password)}
+                  />
+      
+                </div>
+              ) : (
+                <div
+                  style={{
+                    backgroundColor: 'lightcoral',
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    width: '100%',
+                    justifyContent: 'space-around',
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'lightcyan',
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      size="lg"
+                      icon="graduation-cap"
+                      color="black"
+                    />
+                    <text className={styles.skool}>Skool</text>
+                  </div>
+                  <div
+                    style={{
+                      backgroundColor: 'lightpink',
+                      height: haveAccount ? '46%' : '65%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-around',
+                    }}
+                  >
+                    <div>
+                      <Input
+                        inputValue={name}
+                        examplePlaceHolder="Name"
+                        inputValueFunction={(e) => setName(e.target.value)}
+                        inputType="email"
+                        customHeight="33px"
+                        customWidth="350px"
+                        customBorderRadius="100px"
+                        customPaddingLeft="30px"
+                      />
+                    </div>
+                    <div>
+                      <Input
+                        inputValue={userName}
+                        examplePlaceHolder="Username"
+                        inputValueFunction={(e) => setUserName(e.target.value)}
+                        inputType="email"
+                        customHeight="33px"
+                        customWidth="350px"
+                        customBorderRadius="100px"
+                        customPaddingLeft="30px"
+                      />
+                    </div>
+                    <div>
+                      <Input
+                        inputValue={email}
+                        examplePlaceHolder="Email"
+                        inputValueFunction={(e) => setEmail(e.target.value)}
+                        inputType="email"
+                        customHeight="33px"
+                        customWidth="350px"
+                        customBorderRadius="100px"
+                        customPaddingLeft="30px"
+                      />
+                    </div>
+                    <div>
+                      <Input
+                        inputValue={password}
+                        examplePlaceHolder="Password"
+                        inputValueFunction={(e) => setPassword(e.target.value)}
+                        inputType="password"
+                        customHeight="33px"
+                        customWidth="350px"
+                        customBorderRadius="100px"
+                        customPaddingLeft="30px"
+                      />
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <Link to='#' onClick={() => setHaveAccount(true)}>
+                          Have Account ? Login
+                        </Link>
+      
+                        <Link to='#'>Forget Password ?</Link>
+                      </div>
+                    </div>
+                  </div>
+                  <Link to="/">
+                    <Button
+                      styleBtn={{
+                        width: 150,
+                        height: 50,
+                        borderRadius: 100,
+                      }}
+                      content={<div>Signin</div>}
+                    />
+                  </Link>
+                </div>
+              )
+            }
           </div>
-
-          <Button
-            styleBtn={{
-              width: 150,
-              height: 50,
-              borderRadius: 100,
-            }}
-            content={ !authLoading ? <div>Login</div> : <div>Loading...</div>}
-            onPress={_ => handleLogin(email, password)}
-          />
-
         </div>
-      ) : (
-        <div
-          style={{
-            backgroundColor: 'lightcoral',
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            width: '100%',
-            justifyContent: 'space-around',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'lightcyan',
-            }}
-          >
-            <FontAwesomeIcon
-              size="lg"
-              icon="graduation-cap"
-              color="black"
-            />
-            <text className={styles.skool}>Skool</text>
-          </div>
-          <div
-            style={{
-              backgroundColor: 'lightpink',
-              height: haveAccount ? '46%' : '65%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-around',
-            }}
-          >
-            <div>
-              <Input
-                inputValue={name}
-                examplePlaceHolder="Name"
-                inputValueFunction={(e) => setName(e.target.value)}
-                inputType="email"
-                customHeight="33px"
-                customWidth="350px"
-                customBorderRadius="100px"
-                customPaddingLeft="30px"
-              />
-            </div>
-            <div>
-              <Input
-                inputValue={userName}
-                examplePlaceHolder="Username"
-                inputValueFunction={(e) => setUserName(e.target.value)}
-                inputType="email"
-                customHeight="33px"
-                customWidth="350px"
-                customBorderRadius="100px"
-                customPaddingLeft="30px"
-              />
-            </div>
-            <div>
-              <Input
-                inputValue={email}
-                examplePlaceHolder="Email"
-                inputValueFunction={(e) => setEmail(e.target.value)}
-                inputType="email"
-                customHeight="33px"
-                customWidth="350px"
-                customBorderRadius="100px"
-                customPaddingLeft="30px"
-              />
-            </div>
-            <div>
-              <Input
-                inputValue={password}
-                examplePlaceHolder="Password"
-                inputValueFunction={(e) => setPassword(e.target.value)}
-                inputType="password"
-                customHeight="33px"
-                customWidth="350px"
-                customBorderRadius="100px"
-                customPaddingLeft="30px"
-              />
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Link onClick={() => setHaveAccount(true)}>
-                  Have Account ? Login
-                </Link>
-
-                <Link>Forget Password ?</Link>
-              </div>
-            </div>
-          </div>
-          <Link to="/">
-            <Button
-              styleBtn={{
-                width: 150,
-                height: 50,
-                borderRadius: 100,
-              }}
-              content={<div>Signin</div>}
-            />
-          </Link>
-        </div>
-      )
-    }
-    />);
+      }
+      />
+    )
   }
   return (
     <>
-    {handleAuth()}
+    <HandleAuth />
       <Button
         onPress={ isLoggedIn(realmApp) ? onPress : _ => setOpenModal(true)}
         content={
-          <div
-          // style={{
-          //   display: 'flex',
-          //   alignItems: 'center',
-          // }}
-          >
+          <div>
             <text style={{ color: 'white', marginRight: 5 }}>{text}</text>
             <FontAwesomeIcon size="sm" icon="plus" color="white" />
           </div>

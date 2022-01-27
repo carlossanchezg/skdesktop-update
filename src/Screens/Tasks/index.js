@@ -12,7 +12,7 @@ const Tasks = () => {
   const [month, setMonth] = useState(new Date().getMonth());
 
   return (
-    <Container navTitle="Tasks Actualizado 1.0.5" padding={true}>
+    <Container navTitle="Tasks" padding={true}>
       <div
         style={{
           // backgroundColor: 'lightsteelblue',

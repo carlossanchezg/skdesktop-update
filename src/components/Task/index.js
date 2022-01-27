@@ -69,7 +69,7 @@ const Task = (props) => {
   
   useEffect(() => {
     refreshTasks();
-    console.log('DELETE EXPIDER CONTEX EN TASK', deleteExpired);
+    // console.log('DELETE EXPIDER CONTEX EN TASK', deleteExpired);
   }, [deleteExpired, realm]);
 
   useEffect(() => {

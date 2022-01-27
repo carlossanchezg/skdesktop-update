@@ -16,7 +16,7 @@ const CustomModal = ({
   customHeight,
   customWidth,
   customLeft,
-  customTop,
+  customTop
 }) => {
   return (
     <Modal

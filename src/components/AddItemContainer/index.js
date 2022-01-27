@@ -33,7 +33,7 @@ const AddItemContainer = ({
         <FontAwesomeIcon color="black" size="lg" icon={customIcon} />
         <text style={{ fontSize: 25, marginLeft: 5 }}>{itemAreaText}</text>
       </div>
-      <AddButton onPress={onPressFunction} text={buttonText} />
+      <AddButton onPress={() => {console.log(buttonText)}} text={buttonText} />
     </div>
   );
 };
