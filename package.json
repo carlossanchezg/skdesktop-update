@@ -15,7 +15,7 @@
         "repo": "skdesktop-update"
       }
     ],
-    "icon":"build/sk512_O.png",
+    "icon": "build/sk512_O.png",
     "mac": {
       "category": "com.productivity.application",
       "target": [

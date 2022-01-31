@@ -278,7 +278,7 @@ const AddButton = ({ onPress, text }) => {
   }
   return (
     <>
-    <HandleAuth />
+    {HandleAuth()}
       <Button
         onPress={ isLoggedIn(realmApp) ? onPress : _ => setOpenModal(true)}
         content={
