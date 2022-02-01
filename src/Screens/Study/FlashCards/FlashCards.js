@@ -46,17 +46,15 @@ const FlashCards = () => {
   const [flashCardToEditId, setFlashCardToEditId] = useState("");
 
   const [flashCardName, setFlashCardName] = useState("");
-  const [flashCardQuestion, setFlashCardQuestion] = useState("");
-  const [flashCardAnswer, setFlashCardAnswer] = useState("");
+  const [flashCardFront, setFlashCardFront] = useState("");
+  const [flashCardBack, setFlashCardBack] = useState("");
 
   const [frontCard, setFrontCard] = useState("");
   const [frontCardImageUrl, setFrontCardImageUrl] = useState("");
   const [backCard, setBackCard] = useState("");
   const [backCardImage, setBackCardImage] = useState("");
 
-  const handleCreateNewFlashCard = async (e) => {
-    e.preventDefault();
-    
+  const handleCreateNewFlashCard = async () => {    
     try {
       realm.write(() => {
         const courseToAddFlashCard = realm.objectForPrimaryKey(
@@ -64,10 +62,12 @@ const FlashCards = () => {
           ObjectId(courseId)
         );
         courseToAddFlashCard.flashCards.push({
-          id: `flash-card-${uuidv4()}`,
+          id: uuidv4(),
           name: flashCardName,
-          question: flashCardQuestion,
-          answer: flashCardAnswer,
+          front: flashCardFront,
+          frontImg: '',
+          back: flashCardBack,
+          backImg: '',
         });
       });
       setCourseFlashCards(!courseFlashCards);
@@ -121,8 +121,8 @@ const FlashCards = () => {
     try {
       realm.write(() => {
         foundFlashCard.name = flashCardName;
-        foundFlashCard.question = flashCardQuestion;
-        foundFlashCard.answer = flashCardAnswer;
+        foundFlashCard.question = flashCardFront;
+        foundFlashCard.answer = flashCardBack;
       });
       setCourseFlashCards(!courseFlashCards);
     } catch (error) {
@@ -164,8 +164,8 @@ const FlashCards = () => {
             setEditFlashCard(false);
             setFlashCardToEditId("");
             setFlashCardName("");
-            setFlashCardQuestion('');
-            setFlashCardAnswer('');
+            setFlashCardFront('');
+            setFlashCardBack('');
 
             setFrontCard("");
             setFrontCardImageUrl("");
@@ -204,10 +204,10 @@ const FlashCards = () => {
                 <TextAndComponentContainer>
                   <text>Front Card Quest</text>
                   <Input
-                    inputValue={flashCardQuestion}
+                    inputValue={flashCardFront}
                     examplePlaceHolder="Ej. ¿Cuando inicio?"
                     inputValueFunction={(e) =>
-                      setFlashCardQuestion(e.target.value)
+                      setFlashCardFront(e.target.value)
                     }
                     inputType="text"
                   />
@@ -228,10 +228,10 @@ const FlashCards = () => {
                 <TextAndComponentContainer>
                   <text>Back Card Answ</text>
                   <Input
-                    inputValue={flashCardAnswer}
+                    inputValue={flashCardBack}
                     examplePlaceHolder="Ej. 1939"
                     inputValueFunction={(e) =>
-                      setFlashCardAnswer(e.target.value)
+                      setFlashCardBack(e.target.value)
                     }
                     inputType="text"
                   />
@@ -280,8 +280,8 @@ const FlashCards = () => {
                   iconColor="black"
                   onClickMenuIcon={() => {
                     setFlashCardName(item.name);
-                    setFlashCardQuestion(item.front);
-                    setFlashCardAnswer(item.back);
+                    setFlashCardFront(item.front);
+                    setFlashCardBack(item.back);
                   }}
                   onClickDelete={() => handleDeleteFlashCard(item.id)}
                   onClickEdit={() => {
@@ -290,8 +290,8 @@ const FlashCards = () => {
                     setEditFlashCard(true);
                     // handleUpdateAndSaveNotification(item.id);
                     setFlashCardName(item.name);
-                    setFlashCardQuestion(item.front);
-                    setFlashCardAnswer(item.back);
+                    setFlashCardFront(item.front);
+                    setFlashCardBack(item.back);
                   }}
                 />
               </div>

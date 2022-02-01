@@ -12,13 +12,16 @@ const Tasks = () => {
   const [month, setMonth] = useState(new Date().getMonth());
 
   return (
-    <Container navTitle="Tasks" padding={true}>
+    <Container navTitle="Tasks" padding={false}>
       <div
         style={{
           // backgroundColor: 'lightsteelblue',
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          paddingTop: 10,
+          paddingLeft: 15,
+          paddingRight: 15,
         }}
       >
         <div style={{ backgroundColor: null }}>

@@ -87,11 +87,11 @@ const Settings = () => {
   ];
 
   return (
-    <Container navTitle="Settings" padding={true}>
+    <Container navTitle="Settings" padding={false}>
       <div
         style={{
           // backgroundColor: 'lightgrey',
-          padding: 25,
+          padding: 20,
           overflow: "scroll",
           height: 605,
         }}

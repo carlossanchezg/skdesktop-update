@@ -15,7 +15,7 @@ const Study = () => {
   return (
     <Container navTitle="Study">
       <div className={styles.container}>
-        <StudyModule
+        {/* <StudyModule
           color1="#E8207A"
           color2="#F05468"
           backgroundFigures={
@@ -69,7 +69,7 @@ const Study = () => {
             </>
           }
           toRoute={`/notifications-study`}
-        />
+        /> */}
         <StudyModule
           color1="#02BAEF"
           color2="#006EE5"
@@ -200,7 +200,7 @@ const Study = () => {
           }
           toRoute={`/pomodoros`}
         />
-        <StudyModule
+        {/* <StudyModule
           color1="#791BF4"
           color2="#3880EC"
           backgroundFigures={
@@ -264,7 +264,7 @@ const Study = () => {
           leftContentTitle="Exams"
           leftContentDescription="Esta al tanto de todos los examanes que tengas y estudia para ellos"
           toRoute={`/exams`}
-        />
+        /> */}
       </div>
     </Container>
   );

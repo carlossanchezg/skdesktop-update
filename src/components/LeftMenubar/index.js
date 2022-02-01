@@ -86,14 +86,14 @@ const LeftMenuBar = () => {
             }}
             active={tasksScreenActive}
           />
-          <ButtonNav
+          {/* <ButtonNav
             textButton="Routines"
             goScreen="routines"
             styleBtn={{
               backgroundColor: routinesScreenActive ? "red" : "gray",
             }}
             active={routinesScreenActive}
-          />
+          /> */}
           <ButtonNav
             textButton="Study"
             goScreen="study"

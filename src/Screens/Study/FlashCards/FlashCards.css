@@ -33,7 +33,7 @@
 }
 
 .flash_cards_container {
-  background-color: orange;
+  /* background-color: orange; */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   /* width: 540px; */
