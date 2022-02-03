@@ -1,0 +1,46 @@
+@font-face {
+  font-family: "Poppins Bold";
+  src: local("Poppins"),
+    url(../../assets/Fonts/Poppins-Bold.ttf) format("opentype");
+}
+
+.premium_button {
+  background-image: url(../../assets/images/skbg.jpg);
+  background-size: 100% 110%;
+  width: 350px;
+  height: 45px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.premium_button_text {
+  font-family: Poppins Bold;
+  color: white;
+  font-size: 19px;
+  margin-left: 2px;
+  text-shadow: 0px 1px 6px rgba(255, 255, 255, 0.5);
+}
+
+
+.edit_account_button {
+  background-color: #6495ED;
+  /* background-size: 100% 110%; */
+  width: 350px;
+  height: 45px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit_account_button_text {
+  font-family: Poppins Bold;
+  color: white;
+  font-size: 15px;
+  margin-left: 2px;
+  /* text-shadow: 0px 1px 6px rgba(255, 255, 255, 0.1); */
+}

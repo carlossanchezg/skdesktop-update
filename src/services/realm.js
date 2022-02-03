@@ -8,9 +8,10 @@ import {
 } from '../schemas/RoutineSchema';
 import {
   CourseSchema,
-  FlashCardSchema,
-  NotificationStudySchema,
-  RepetitionTimeSchema,
+  FlashCardCourseSchema,
+  NotificationsStudyCourseSchema,
+  CourseNotificationSchema,
+  RandomTimeRangeSchema
 } from '../schemas/CourseSchema';
 
 import {PomodoroSchema} from '../schemas/PomodoroSchema';
@@ -52,9 +53,10 @@ export const getRealm = async () => {
     PomodoroTaskSchema,
     RoutineSchema,
     CourseSchema,
-    FlashCardSchema,
-    NotificationStudySchema,
-    RepetitionTimeSchema,
+    FlashCardCourseSchema,
+    NotificationsStudyCourseSchema,
+    CourseNotificationSchema,
+    RandomTimeRangeSchema,
     PomodoroSchema,
     ExamsSchema,
     NotificationsExamsSchema,

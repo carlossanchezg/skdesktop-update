@@ -20,6 +20,9 @@ const TitleAndIconClose = ({ closeModal, modalTitle }) => {
         onClick={() => closeModal(false)}
         size="lg"
         icon="times"
+        style={{
+          cursor: 'pointer'
+        }}
       />
     </div>
   );

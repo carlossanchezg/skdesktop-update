@@ -100,7 +100,10 @@ const Pomodoro = () => {
                   // return [true, 1500]; // repeat animation in 1.5 seconds
                 }}
                 duration={pomodoroConcentrationTime}
-                colors={[[courseColors[pomodoroColorPosition].color1], [courseColors[pomodoroColorPosition].color2]]}
+                colors={[
+                  [courseColors[pomodoroColorPosition].color1],
+                  [courseColors[pomodoroColorPosition].color2],
+                ]}
               >
                 {({ remainingTime, animatedColor }) => (
                   <text
@@ -405,100 +408,113 @@ const Pomodoro = () => {
               </div>
             }
           />
-          {
-            userPomodoros.length > 0 ? <div className={styles.pomdoros_container}>
-            {userPomodoros.map((item) => (
-              <div
-                className={styles.pomodoro_module}
-                style={{
-                  backgroundColor: Colors.SecondaryBackground,
-                }}
-                onClick={() => {
-                  setOpenPomodoroModal(true);
-                  setStart(false);
-                  setPause(false);
-                  setPomodoroOver(false);
-
-                  setPomodoroName(item.name)
-                  setPomodoroConcentrationTime(item.concentrationTime);
-                  setPomodoroColorPosition(item.colorPosition)
-                }}
-              >
+          {userPomodoros.length > 0 ? (
+            <div className={styles.pomdoros_container}>
+              {userPomodoros.map((item) => (
                 <div
+                  className={styles.pomodoro_module}
                   style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
+                    backgroundColor: Colors.SecondaryBackground,
                   }}
                 >
-                  <FontAwesomeIcon
-                    icon="stopwatch"
-                    size="3x"
-                    color={courseColors[item.colorPosition].color1}
-                    style={{marginRight: 20}}
-                  />
                   <div
                     style={{
                       display: "flex",
-                      flexDirection: "column",
-                      backgroundColor: "red",
-                      width: 150,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      width: "100%",
+                      cursor: 'pointer'
+                    }}
+                    onClick={() => {
+                      setOpenPomodoroModal(true);
+                      setStart(false);
+                      setPause(false);
+                      setPomodoroOver(false);
+
+                      setPomodoroName(item.name);
+                      setPomodoroConcentrationTime(item.concentrationTime);
+                      setPomodoroColorPosition(item.colorPosition);
                     }}
                   >
-                    <text>{item.name}</text>
+                    <FontAwesomeIcon
+                      icon="stopwatch"
+                      size="3x"
+                      color={courseColors[item.colorPosition].color1}
+                      style={{ marginRight: 20 }}
+                    />
                     <div
                       style={{
                         display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
+                        flexDirection: "column",
                       }}
                     >
+                      <text>{item.name}</text>
                       <div
                         style={{
                           display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          // backgroundColor: 'red',
+                          width: 150,
+                          marginTop: 8
                         }}
                       >
-                        <text>{item.concentrationTime / 60} M</text>
-                        <FontAwesomeIcon icon="brain" color="black" size="sm" />
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                        }}
-                      >
-                        <text>{item.breakTime / 60} M</text>
-                        <FontAwesomeIcon
-                          icon="coffee"
-                          color="black"
-                          size="sm"
-                        />
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                        }}
-                      >
-                        <text>{item.sessions}</text>
-                        <FontAwesomeIcon icon="redo" color="black" size="sm" />
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                          }}
+                        >
+                          <text>{item.concentrationTime / 60} M</text>
+                          <FontAwesomeIcon
+                            icon="brain"
+                            color="black"
+                            size="sm"
+                          />
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                          }}
+                        >
+                          <text>{item.breakTime / 60} M</text>
+                          <FontAwesomeIcon
+                            icon="coffee"
+                            color="black"
+                            size="sm"
+                          />
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                          }}
+                        >
+                          <text>{item.sessions}</text>
+                          <FontAwesomeIcon
+                            icon="redo"
+                            color="black"
+                            size="sm"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <MenuIcon
+                    noPaddingRight={true}
+                    iconColor="black"
+                    elementName="Pomodoro"
+                  />
                 </div>
-                <MenuIcon
-                  noPaddingRight={true}
-                  iconColor="black"
-                  elementName="Pomodoro"
-                />
-              </div>
-            ))}
-          </div> : <Spinner enable={userPomodoros.length === 0 ? true : false} />
-          }
+              ))}
+            </div>
+          ) : (
+            <Spinner enable={userPomodoros.length === 0 ? true : false} />
+          )}
           {pomodoroModalView()}
         </div>
       </div>

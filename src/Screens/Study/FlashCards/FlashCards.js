@@ -54,7 +54,7 @@ const FlashCards = () => {
   const [backCard, setBackCard] = useState("");
   const [backCardImage, setBackCardImage] = useState("");
 
-  const handleCreateNewFlashCard = async () => {    
+  const handleCreateNewFlashCard = async () => {
     try {
       realm.write(() => {
         const courseToAddFlashCard = realm.objectForPrimaryKey(
@@ -65,9 +65,9 @@ const FlashCards = () => {
           id: uuidv4(),
           name: flashCardName,
           front: flashCardFront,
-          frontImg: '',
+          frontImg: frontCardImageUrl,
           back: flashCardBack,
-          backImg: '',
+          backImg: backCardImage,
         });
       });
       setCourseFlashCards(!courseFlashCards);
@@ -78,7 +78,6 @@ const FlashCards = () => {
   };
 
   const handleDeleteFlashCard = async (cardId) => {
-    
     try {
       realm.write(() => {
         const coursefound = realm.objectForPrimaryKey(
@@ -99,8 +98,10 @@ const FlashCards = () => {
           removedFlashCard_helper.push({
             id: item.id,
             name: item.name,
-            question: item.question,
-            answer: item.answer,
+            front: item.front,
+            frontImg: item.frontImg,
+            back: item.back,
+            backImg: item.backImg
           })
         );
 
@@ -115,24 +116,26 @@ const FlashCards = () => {
   };
 
   const handleEditFlashCard = async (cardId) => {
-    
     const foundFlashCard = userFlashCards.find((item) => item.id === cardId);
 
     try {
       realm.write(() => {
         foundFlashCard.name = flashCardName;
-        foundFlashCard.question = flashCardFront;
-        foundFlashCard.answer = flashCardBack;
+        foundFlashCard.front = flashCardFront;
+        foundFlashCard.frontImg = frontCardImageUrl;
+        foundFlashCard.back = flashCardBack;
+        foundFlashCard.backImg = backCardImage;
+
       });
       setCourseFlashCards(!courseFlashCards);
     } catch (error) {
       console.log("ERR", error);
     }
-    setOpenModal(false)
+    setOpenModal(false);
   };
 
   const refreshFlashCards = async (_) => {
-        try {
+    try {
       realm.write(() => {
         const coursefound = realm.objectForPrimaryKey(
           "Course",
@@ -164,8 +167,8 @@ const FlashCards = () => {
             setEditFlashCard(false);
             setFlashCardToEditId("");
             setFlashCardName("");
-            setFlashCardFront('');
-            setFlashCardBack('');
+            setFlashCardFront("");
+            setFlashCardBack("");
 
             setFrontCard("");
             setFrontCardImageUrl("");
@@ -202,7 +205,7 @@ const FlashCards = () => {
                 </TextAndComponentContainer>
 
                 <TextAndComponentContainer>
-                  <text>Front Card Quest</text>
+                  <text>Front</text>
                   <Input
                     inputValue={flashCardFront}
                     examplePlaceHolder="Ej. ¿Cuando inicio?"
@@ -214,7 +217,7 @@ const FlashCards = () => {
                 </TextAndComponentContainer>
 
                 <TextAndComponentContainer>
-                  <text>Front Card Image URL</text>
+                  <text>Front Image URL</text>
                   <Input
                     inputValue={frontCardImageUrl}
                     examplePlaceHolder="https//www.image.org"
@@ -226,19 +229,17 @@ const FlashCards = () => {
                 </TextAndComponentContainer>
 
                 <TextAndComponentContainer>
-                  <text>Back Card Answ</text>
+                  <text>Back</text>
                   <Input
                     inputValue={flashCardBack}
                     examplePlaceHolder="Ej. 1939"
-                    inputValueFunction={(e) =>
-                      setFlashCardBack(e.target.value)
-                    }
+                    inputValueFunction={(e) => setFlashCardBack(e.target.value)}
                     inputType="text"
                   />
                 </TextAndComponentContainer>
 
                 <TextAndComponentContainer>
-                  <text>Back Card Image URL</text>
+                  <text>Back Image URL</text>
                   <Input
                     inputValue={backCardImage}
                     examplePlaceHolder="https//www.image.org"
@@ -252,7 +253,8 @@ const FlashCards = () => {
                   submitFunction={(e) =>
                     editFlashCard
                       ? handleEditFlashCard(flashCardToEditId)
-                      : handleCreateNewFlashCard(e)}
+                      : handleCreateNewFlashCard(e)
+                  }
                   submitButtonText={editFlashCard ? "Editar" : "Crear"}
                   submitBg="lightblue"
                 />
@@ -316,7 +318,7 @@ const FlashCards = () => {
                   setBackCardImage(item.backImg);
                 }}
               >
-                {item.name}
+                {item.front}
               </div>
             </div>
           ))}
@@ -346,6 +348,9 @@ const FlashCards = () => {
                   icon="times"
                   size="2x"
                   onClick={() => setOpenModalFlashCard(false)}
+                  style={{
+                    cursor: "pointer",
+                  }}
                 />
               </div>
               <div
@@ -358,7 +363,7 @@ const FlashCards = () => {
                   justifyContent: "space-evenly",
                 }}
               >
-                <h2>{flashCardName}</h2>
+                {/* <h2>{flashCardName}</h2> */}
                 <h3>{frontCard}</h3>
               </div>
               <img
@@ -369,7 +374,13 @@ const FlashCards = () => {
                 src={frontCardImageUrl}
                 alt={flashCardName}
               />
-              <FontAwesomeIcon icon="redo" onClick={onRotate} />
+              <FontAwesomeIcon
+                icon="redo"
+                onClick={onRotate}
+                style={{
+                  cursor: "pointer",
+                }}
+              />
             </div>
             <div className="back">
               <div
@@ -386,6 +397,9 @@ const FlashCards = () => {
                   icon="times"
                   size="2x"
                   onClick={() => setOpenModalFlashCard(false)}
+                  style={{
+                    cursor: "pointer",
+                  }}
                 />
               </div>
               <div
@@ -408,7 +422,13 @@ const FlashCards = () => {
                 src={backCardImage}
                 alt={flashCardName}
               />
-              <FontAwesomeIcon icon="redo" onClick={onRotate} />
+              <FontAwesomeIcon
+                icon="redo"
+                onClick={onRotate}
+                style={{
+                  cursor: "pointer",
+                }}
+              />
             </div>
           </Modal>
         </div>

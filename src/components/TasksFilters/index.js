@@ -1,28 +1,33 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from "react";
+
+import {ObjectId} from "bson";
 
 import RealmContext from "../../contexts/RealmContext";
 
 import { isLoggedIn } from "../../services/realm";
 
-import AddButton from '../AddButton';
-import Button from '../Button';
+import AddButton from "../AddButton";
+import Button from "../Button";
 
-import AddItemContainer from '../AddItemContainer';
+import AddItemContainer from "../AddItemContainer";
 
-import CustomModal from '../Modal';
-import TitleAndIconClose from '../Modal/titleAndIconClose';
-import TextAndComponentContainer from '../Modal/textAndComponentContainer';
-import Input from '../Input';
-import SubmitBottomButtons from '../Modal/submitBottomButtons';
+import CustomModal from "../Modal";
+import TitleAndIconClose from "../Modal/titleAndIconClose";
+import TextAndComponentContainer from "../Modal/textAndComponentContainer";
+import Input from "../Input";
+import SubmitBottomButtons from "../Modal/submitBottomButtons";
+import SwitchSelector from "../SwitchSelector";
 
-import Modal from 'react-modal';
+import Modal from "react-modal";
 
-import axios from 'axios';
+import axios from "axios";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Colors } from '../../styles';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Colors } from "../../styles";
 
-Modal.setAppElement('#root');
+import { icons } from "../../utils";
+
+Modal.setAppElement("#root");
 const TasksFilters = () => {
   const { realmApp, setRealmApp, realm, setRealm } = useContext(RealmContext);
 
@@ -30,7 +35,8 @@ const TasksFilters = () => {
 
   const [userFilters, setUserFilters] = useState([]);
 
-  const [filterName, setFilterName] = useState('');
+  const [filterName, setFilterName] = useState("");
+  const [selectedIcon, setSelectedIcon] = useState('baseball-ball');
 
   const handleGetUserFilters = async () => {
     if (realm && isLoggedIn(realmApp)) {
@@ -42,34 +48,42 @@ const TasksFilters = () => {
     }
   };
 
-  const handleCreateFilterTask = async (e) => {
+  const handleCreateFilterTask = async (e, name, icon) => {
     e.preventDefault();
 
-    const jsonSend = {
-      name: filterName,
+    const data = {
+      _id: ObjectId(),
+      name: name,
+      icon: icon,
+      userID: realmApp.currentUser ? realmApp.currentUser.id : "unknownUser",
     };
-    const NEW_FILTERTASK_URI = `${process.env.REACT_APP_BACKEND_BASE_URL}/users/60fb478bee70afa9fe3d485d/tasks/filters/new/`;
+
     try {
-      const newFilterTaskRes = await axios.post(NEW_FILTERTASK_URI, jsonSend);
-      setUserFilters(newFilterTaskRes.data.new.userTaskFilters);
-      console.log('new filter', newFilterTaskRes.data.new.userTaskFilters);
-      setOpenModal(false);
+      realm.write(() => {
+        realm.create("Filter", data);
+      });
     } catch (error) {
-      console.log('ERR IN CREATE NEW FILTER TASK', error);
+      console.log("ERR", error);
     }
+
+    setUserFilters(realm.objects("Filter"));
+    setOpenModal(false);
   };
 
   const handleDeleteUserFilter = async (e, filterId) => {
     e.preventDefault();
 
-    const DELETE_FILTER_URI = `http://localhost:3500/mydomain/users/60fb478bee70afa9fe3d485d/tasks/filters/${filterId}`;
     try {
-      const deletedFilterRes = await axios.delete(DELETE_FILTER_URI);
-      setUserFilters(deletedFilterRes.data.deleted);
-      console.log('filter delete res', deletedFilterRes.data);
+      realm.write(() => {
+        const foundFilter = realm.objectForPrimaryKey("Filter", filterId);
+
+        realm.delete(foundFilter);
+      });
     } catch (error) {
-      console.log('ERR TO DELETE FILTER', error);
+      console.log("ERR", error);
     }
+
+    setUserFilters(realm.objects("Filter"));
   };
 
   useEffect(() => {
@@ -81,10 +95,10 @@ const TasksFilters = () => {
       <div
         style={{
           // backgroundColor: 'orange',
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
         <AddItemContainer
@@ -92,21 +106,21 @@ const TasksFilters = () => {
           customIcon="filter"
           onPressFunction={() => {
             setOpenModal(true);
-            setFilterName('');
+            setFilterName("");
           }}
           buttonText="New Filter"
         />
 
         <CustomModal
           open={openModal}
-          customHeight="25%"
-          customTop="30%"
+          customHeight="33%"
+          customTop="28%"
           overlayClick={(value) => setOpenModal(value)}
           content={
             <div
               style={{
                 // backgroundColor: 'steelblue',
-                height: '100%',
+                height: "100%",
               }}
             >
               <TitleAndIconClose
@@ -124,9 +138,63 @@ const TasksFilters = () => {
                   />
                 </TextAndComponentContainer>
 
+                <TextAndComponentContainer>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <text>Icon</text>
+                  <text style={{ fontSize: 8 }}>optional</text>
+                </div>
+                <SwitchSelector
+                  scroll={true}
+                  content={icons.map((item) =>
+                    item.iconCode === selectedIcon ? (
+                      <div
+                        onClick={() => setSelectedIcon(item.iconCode)}
+                        style={{
+                          backgroundColor: 'black',
+                          marginLeft: '2px',
+                          marginRight: '2px',
+                          paddingLeft: '15px',
+                          paddingRight: '15px',
+                          paddingTop: '5px',
+                          paddingBottom: '5px',
+                          borderRadius: '50px',
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          size="sm"
+                          icon={item.iconCode}
+                          color="white"
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        onClick={() => setSelectedIcon(item.iconCode)}
+                        style={{
+                          backgroundColor: 'transparent',
+                          marginLeft: '2px',
+                          marginRight: '2px',
+                          paddingLeft: '15px',
+                          paddingRight: '15px',
+                          paddingTop: '5px',
+                          paddingBottom: '5px',
+                          borderRadius: '50px',
+                        }}
+                      >
+                        <FontAwesomeIcon size="sm" icon={item.iconCode} />
+                      </div>
+                    )
+                  )}
+                />
+              </TextAndComponentContainer>
+
                 <SubmitBottomButtons
                   cancelFunction={() => setOpenModal(false)}
-                  submitFunction={(e) => handleCreateFilterTask(e)}
+                  submitFunction={(e) => handleCreateFilterTask(e, filterName, selectedIcon)}
                   submitButtonText="Crear"
                   submitBg="lightblue"
                 />
@@ -138,7 +206,7 @@ const TasksFilters = () => {
       <div
         style={{
           // backgroundColor: 'lightsalmon',
-          overflowY: 'scroll',
+          overflowY: "scroll",
           paddingTop: 20,
           paddingLeft: 20,
           paddingRight: 20,
@@ -148,28 +216,28 @@ const TasksFilters = () => {
         {userFilters.map((item) => (
           <div
             style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
               // backgroundColor: 'linen',
               marginBottom: 15,
-              borderTopStyle: 'solid',
+              borderTopStyle: "solid",
               borderTopColor: Colors.SecondaryBackground,
               borderTopWidth: 1,
-              borderRight: 'none',
-              borderBottom: 'none',
-              borderLeft: 'none',
+              borderRight: "none",
+              borderBottom: "none",
+              borderLeft: "none",
             }}
           >
             <div>
-              <FontAwesomeIcon color="black" size="sm" icon="filter" />
-              <text style={{ fontSize: 17, marginLeft: 3 }}>{item.name}</text>
+              <FontAwesomeIcon color="black" size="sm" icon={item.icon} />
+              <text style={{ fontSize: 15, marginLeft: 6 }}>{item.name}</text>
             </div>
             <Button
               onPress={(e) => handleDeleteUserFilter(e, item._id)}
               content={<FontAwesomeIcon color="red" icon="trash-alt" />}
-              styleBtn={{ backgroundColor: 'transparent' }}
+              styleBtn={{ backgroundColor: "transparent" }}
             />
           </div>
         ))}

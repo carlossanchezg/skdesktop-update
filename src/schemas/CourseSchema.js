@@ -1,57 +1,60 @@
-const CourseSchema = {
+export const CourseSchema = {
   name: 'Course',
   properties: {
     _id: 'objectId?',
-    userID: 'string?',
-    name: 'string?',
     color: 'string?',
-    icon: 'string?',
     flashCards: 'FlashCardCourse[]',
+    icon: 'string?',
+    name: 'string?',
     notificationsStudy: 'NotificationsStudyCourse[]',
+    userID: 'string?',
   },
   primaryKey: '_id',
-
 };
 
-const FlashCardSchema = {
+export const FlashCardCourseSchema = {
   name: 'FlashCardCourse',
   embedded: true,
   properties: {
-    id: 'string?',
-    name: 'string?',
-    front: 'string?',
-    frontImg: 'string?',
     back: 'string?',
     backImg: 'string?',
+    front: 'string?',
+    frontImg: 'string?',
+    id: 'string?',
+    name: 'string?',
   },
 };
 
-const NotificationStudySchema = {
+export const NotificationsStudyCourseSchema = {
   name: 'NotificationsStudyCourse',
   embedded: true,
   properties: {
-    id: 'string?',
-    title: 'string?',
     body: 'string?',
-    active: 'bool?',
-    repeat: 'int?',
-    randomNotificationTime: 'bool?',
-    repetition_time: 'RepetitionTime[]',
-  },
-  
-};
-const RepetitionTimeSchema = {
-  name: 'RepetitionTime',
-  embedded: true,
-  properties: {
     id: 'string?',
-    date: 'date?',
+    isActive: 'bool?',
+    isRandomTime: 'bool?',
+    notifications: 'CourseNotification[]',
+    randomTimeRange: 'RandomTimeRange',
+    repetitionCount: 'int?',
+    title: 'string?',
   },
 };
 
-export {
-  CourseSchema,
-  FlashCardSchema,
-  NotificationStudySchema,
-  RepetitionTimeSchema,
+export const CourseNotificationSchema = {
+  name: 'CourseNotification',
+  embedded: true,
+  properties: {
+    fireHour: 'int?',
+    fireMinute: 'int?',
+    notificationId: 'int?',
+  },
+};
+
+export const RandomTimeRangeSchema = {
+  name: 'RandomTimeRange',
+  embedded: true,
+  properties: {
+    end: 'date?',
+    start: 'date?',
+  },
 };

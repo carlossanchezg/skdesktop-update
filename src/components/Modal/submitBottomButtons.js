@@ -17,7 +17,7 @@ const SubmitBottomButtons = ({
         alignItems: 'center',
         // backgroundColor: 'red',
         justifyContent: 'space-evenly',
-        marginTop: 25,
+        marginTop: 35,
       }}
     >
       <Button

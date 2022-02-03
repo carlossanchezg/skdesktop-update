@@ -9,11 +9,15 @@ import Container from "../../components/Container";
 import SettingsContainer from "../../components/SettingsContainer";
 import Dropdown from "../../components/DropDown";
 import Input from "../../components/Input";
+import Button from "../../components/Button";
+
+import styles from "./Settings.module.css";
 
 import { hourOptions } from "../../utils";
 
 import { useTranslation } from "react-i18next";
 
+const { shell } = require("electron"); // Import at top of page..
 const Settings = () => {
   const [t, i18n] = useTranslation("global");
 
@@ -97,6 +101,91 @@ const Settings = () => {
         }}
       >
         <div>
+          <h2>Skool Premium</h2>
+          <Button
+            onPress={() => shell.openExternal("http://theskool.info/premium")}
+            content={
+              <div
+                style={{
+                  // backgroundColor: "orange",
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                {/* <span
+                  class="material-icons-round"
+                  style={{
+                    fontSize: 33,
+                    color: "white",
+                  }}
+                >
+                  school
+                </span> */}
+                <text className={styles.premium_button_text}>Premium</text>
+              </div>
+            }
+            customClassName={styles.premium_button}
+          />
+        </div>
+        <div>
+          <h2>Account</h2>
+          <Button
+            onPress={() => shell.openExternal("http://theskool.info")}
+            content={
+              <div
+                style={{
+                  // backgroundColor: "orange",
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                {/* <span
+                  class="material-icons-round"
+                  style={{
+                    fontSize: 33,
+                    color: "white",
+                  }}
+                >
+                  school
+                </span> */}
+                <text className={styles.edit_account_button_text}>
+                  Edit Account
+                </text>
+              </div>
+            }
+            customClassName={styles.edit_account_button}
+          />
+          <div>
+            <text style={{
+              fontSize: 9,
+            }}>Login in browser to edit your account.</text>
+          </div>
+          {/* <div style={{
+            
+          }}>
+            <Input
+              inputValue={userName}
+              examplePlaceHolder="Ex; Math"
+              inputValueFunction={(e) => {}}
+              inputType="email"
+            />
+            <Input
+              inputValue={email}
+              examplePlaceHolder="Ex; Math"
+              inputValueFunction={(e) => {}}
+              inputType="email"
+            />
+          </div> */}
+          <h3
+            onClick={handleOut}
+            style={{ color: "lightblue", cursor: "pointer" }}
+          >
+            Logout
+          </h3>
+        </div>
+        <div>
           <h2>{t("settings.languaje")}</h2>
           <SettingsContainer
             settingTitle="Change Languaje"
@@ -113,27 +202,6 @@ const Settings = () => {
           />
         </div>
         <div>
-          <h2>Account</h2>
-          <Input
-            inputValue={userName}
-            examplePlaceHolder="Ex; Math"
-            inputValueFunction={(e) => {}}
-            inputType="email"
-          />
-          <Input
-            inputValue={email}
-            examplePlaceHolder="Ex; Math"
-            inputValueFunction={(e) => {}}
-            inputType="email"
-          />
-          <h3
-            onClick={handleOut}
-            style={{ color: "lightblue", cursor: "pointer" }}
-          >
-            Logout
-          </h3>
-        </div>
-        <div>
           <h2>Tasks</h2>
           <SettingsContainer
             settingTitle="Delete Expired Tasks"
@@ -144,7 +212,7 @@ const Settings = () => {
               setDeleteExpiredTasks(!deleteExpiredTasks)
             }
           />
-          <SettingsContainer
+          {/* <SettingsContainer
             settingTitle="Sound on done Task"
             settingsDescription="Reproducir sonido al terminar una tarea"
             settingSwitch={true}
@@ -181,7 +249,7 @@ const Settings = () => {
             swithOnChange={(xwey, e) =>
               setAnimationOnDoneTask(!animationOnDoneTask)
             }
-          />
+          /> */}
         </div>
       </div>
     </Container>

@@ -1,18 +1,18 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from "react";
 
-import SettingsOptionsContext from '../../contexts/SettingsOptionsContext';
-import RealmContext from '../../contexts/RealmContext';
+import SettingsOptionsContext from "../../contexts/SettingsOptionsContext";
+import RealmContext from "../../contexts/RealmContext";
 
-import AddItemContainer from '../AddItemContainer';
-import AddButton from '../AddButton';
-import Button from '../Button';
-import CustomModal from '../Modal';
-import TitleAndIconClose from '../Modal/titleAndIconClose';
-import TextAndComponentContainer from '../Modal/textAndComponentContainer';
-import Input from '../Input';
-import SubmitBottomButtons from '../Modal/submitBottomButtons';
-import SwitchSelector from '../SwitchSelector';
-import Dropdown from '../DropDown';
+import AddItemContainer from "../AddItemContainer";
+import AddButton from "../AddButton";
+import Button from "../Button";
+import CustomModal from "../Modal";
+import TitleAndIconClose from "../Modal/titleAndIconClose";
+import TextAndComponentContainer from "../Modal/textAndComponentContainer";
+import Input from "../Input";
+import SubmitBottomButtons from "../Modal/submitBottomButtons";
+import SwitchSelector from "../SwitchSelector";
+import Dropdown from "../DropDown";
 
 import {
   handleReadableDate,
@@ -23,50 +23,54 @@ import {
   modeOptions,
   isEmpty,
   isAlarmInPresent,
-} from '../../utils';
+} from "../../utils";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import styles from './Task.module.css';
+import styles from "./Task.module.css";
 
-import axios from 'axios';
+import axios from "axios";
 
-import Modal from 'react-modal';
-import {isLoggedIn} from '../../services/realm';
-import {v4 as uuidv4} from 'uuid';
-import {ObjectId} from "bson";
-import { ipcRenderer } from 'electron';
+import Modal from "react-modal";
+import { isLoggedIn } from "../../services/realm";
+import { v4 as uuidv4 } from "uuid";
+import { ObjectId } from "bson";
+import { ipcRenderer } from "electron";
 
-
-Modal.setAppElement('#root');
+Modal.setAppElement("#root");
 const Task = (props) => {
   const { deleteExpired } = useContext(SettingsOptionsContext);
-  const {realmApp, setRealmApp, realm, setRealm} = useContext(RealmContext);
+  const { realmApp, setRealmApp, realm, setRealm } = useContext(RealmContext);
 
   const [openModal, setOpenModal] = useState(false);
+  const [filtersModal, setFiltersModal] = useState(false);
   const [undoModal, setUndoModal] = useState(false);
 
   const [userTasks, setUserTasks] = useState([]);
   const [showUserTasks, setShowUserTasks] = useState([]);
 
-  const [taskName, setTaskName] = useState('');
-  const [colorOption, setColorOption] = useState('#14D378');
+  const [taskName, setTaskName] = useState("");
+  const [colorOption, setColorOption] = useState("#14D378");
   const [modeOption, setModeOption] = useState(0);
   const [selectedHour, setSelectedHour] = useState(null);
   const [selectedMinutes, setSelectedMinutes] = useState(null);
-  const [selectedIcon, setSelectedIcon] = useState('anchor');
+  const [selectedIcon, setSelectedIcon] = useState("anchor");
 
-  const refreshTasks = _ => {
-    if (realm && isLoggedIn(realmApp)){
-      const data = realm.objects('Task');
+  const [userFilters, setUserFilters] = useState([]);
+
+  const refreshTasks = (_) => {
+    if (realm && isLoggedIn(realmApp)) {
+      const data = realm.objects("Task");
       setUserTasks(
-        data ? data.filtered(
-            `soundDay == ${props.getPressDay} AND soundMonth == ${props.getMonth} AND soundYear == ${props.getYear}`,
-          ) : []
+        data
+          ? data.filtered(
+              `soundDay == ${props.getPressDay} AND soundMonth == ${props.getMonth} AND soundYear == ${props.getYear}`
+            )
+          : []
       );
     }
-  }
-  
+  };
+
   useEffect(() => {
     refreshTasks();
     // console.log('DELETE EXPIDER CONTEX EN TASK', deleteExpired);
@@ -79,13 +83,13 @@ const Task = (props) => {
   const handleCreateTask = async (e) => {
     e.preventDefault();
 
-    if (isEmpty(taskName)){
-      alert('Name is required');
+    if (isEmpty(taskName)) {
+      alert("Name is required");
       return;
     }
-    
-    if (selectedHour === null || selectedMinutes === null){
-      alert('Time must not be empty');
+
+    if (selectedHour === null || selectedMinutes === null) {
+      alert("Time must not be empty");
       return;
     }
 
@@ -101,7 +105,7 @@ const Task = (props) => {
       soundYear: props.getYear,
       soundMonth: props.getMonth,
       soundDay: props.getPressDay,
-      soundHour: selectedHour,  
+      soundHour: selectedHour,
       soundMinute: selectedMinutes,
     };
 
@@ -112,37 +116,37 @@ const Task = (props) => {
       year: newTaskData.soundYear,
       month: newTaskData.soundMonth,
       day: newTaskData.soundDay,
-      title: newTaskData.mode === 1 ? 'Task Alarm' : 'Task Notification',
+      title: newTaskData.mode === 1 ? "Task Alarm" : "Task Notification",
       body: newTaskData.name,
-      type: newTaskData.mode === 1 ? 'alarm' : 'notification'
+      type: newTaskData.mode === 1 ? "alarm" : "notification",
     };
 
-    if (!isAlarmInPresent(newAlarm)){
-      alert('Time cannot be in the past');
+    if (!isAlarmInPresent(newAlarm)) {
+      alert("Time cannot be in the past");
       return;
     }
 
     try {
       /* Save task */
-      if (realm && isLoggedIn(realmApp)){
-        ipcRenderer.send('set-alarm', newAlarm);
+      if (realm && isLoggedIn(realmApp)) {
+        ipcRenderer.send("set-alarm", newAlarm);
         realm.write(() => {
-          realm.create('Task', newTaskData);
+          realm.create("Task", newTaskData);
         });
         refreshTasks();
       }
       setOpenModal(false);
     } catch (error) {
-      console.log('ERR IN CREATE NEW TASK', error);
+      console.log("ERR IN CREATE NEW TASK", error);
     }
   };
 
   const handleDeleteTask = async (e, id) => {
     e.preventDefault();
     try {
-      if (realm && isLoggedIn(realmApp)){
+      if (realm && isLoggedIn(realmApp)) {
         realm.write(() => {
-          const d = realm.objects('Task')
+          const d = realm.objects("Task");
           const foundTasks = d ? d.filtered(`id == "${id}"`) : [];
           if (foundTasks.length < 1) return;
           const foundTask = foundTasks[0];
@@ -151,17 +155,17 @@ const Task = (props) => {
         });
       }
     } catch (error) {
-      console.log('ERR TO DELETE TASK', error);
+      console.log("ERR TO DELETE TASK", error);
     }
   };
 
   const handleDoneTask = async (e, id, name, color, done, icon) => {
-    console.info('HANDLE_DONE_TASK');
+    console.info("HANDLE_DONE_TASK");
     e && e.preventDefault();
     try {
-      if (realm && isLoggedIn(realmApp)){
+      if (realm && isLoggedIn(realmApp)) {
         realm.write(() => {
-          const d = realm.objects('Task')
+          const d = realm.objects("Task");
           const foundTasks = d ? d.filtered(`id == "${id}"`).snapshot() : [];
           if (foundTasks.length < 1) return;
           const foundTask = foundTasks[0];
@@ -170,7 +174,7 @@ const Task = (props) => {
         });
       }
     } catch (error) {
-      console.log('ERR TO UPDATE TASK', error);
+      console.log("ERR TO UPDATE TASK", error);
     }
 
     // const DONE_TASK_URI = `http://localhost:3500/mydomain/users/60fb478bee70afa9fe3d485d/tasks/${id}`;
@@ -200,11 +204,11 @@ const Task = (props) => {
       <div
         style={{
           // backgroundColor: 'orange',
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          height: '100%',
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          height: "100%",
         }}
       >
         {(props.getPressDay < currentDate.getDate() &&
@@ -213,10 +217,10 @@ const Task = (props) => {
         props.getYear < currentDate.getFullYear() ? (
           <div
             style={{
-              display: 'flex',
-              justifyContent: 'center',
-              backgroundColor: 'red',
-              width: '100%',
+              display: "flex",
+              justifyContent: "center",
+              backgroundColor: "red",
+              width: "100%",
             }}
           >
             <text>Aun no es posible viajar en el tiempo</text>
@@ -227,16 +231,16 @@ const Task = (props) => {
             itemAreaText={
               props.getPressDay === currentDate.getDate() &&
               props.getMonth === currentDate.getMonth()
-                ? 'Not tasks for today, add one'
+                ? "Not tasks for today, add one"
                 : props.getPressDay === currentDate.getDate() + 1
-                ? 'Not tasks for tomoorrow, add one'
+                ? "Not tasks for tomoorrow, add one"
                 : `No tasks for ${props.getPressDay} ${props.getMonth} ${props.getYear} add one`
             }
             onPressFunction={() => {
               setOpenModal(true);
-              setTaskName('');
-              setColorOption('#14D378');
-              setSelectedIcon('anchor');
+              setTaskName("");
+              setColorOption("#14D378");
+              setSelectedIcon("anchor");
             }}
             buttonText="New Task"
           />
@@ -245,16 +249,43 @@ const Task = (props) => {
     );
   };
 
+  const handleGetUserFilters = () => {
+    const sorted_filters = [];
+    if (realm && isLoggedIn(realmApp)) {
+      const filters = realm.objects("Filter");
+
+      filters.map((filter) =>
+        sorted_filters.push({
+          value: filter,
+          text: filter.name,
+          icon: (
+            <FontAwesomeIcon size="sm" icon={filter.icon} color="black" />
+          ),
+        })
+      );
+
+      // setUserFilters(sorted_filters);
+
+      console.log(
+        "filters",
+        sorted_filters.map((item) => item)
+      );
+    }
+    return sorted_filters;
+  };
+
   const CustomModalView = () => {
     return (
       <CustomModal
         open={openModal}
         overlayClick={(value) => setOpenModal(value)}
+        customHeight="70%"
+        customTop="10%"
         content={
           <div
             style={{
               // backgroundColor: 'steelblue',
-              height: '100%',
+              height: "100%",
             }}
           >
             <TitleAndIconClose
@@ -282,32 +313,32 @@ const Task = (props) => {
                         onClick={() => setColorOption(item.color)}
                         style={{
                           backgroundColor: colorOption,
-                          display: 'flex',
-                          alignItems: 'center',
-                          paddingLeft: '39px',
-                          paddingRight: '39px',
-                          paddingTop: '7px',
-                          paddingBottom: '6px',
-                          borderRadius: '50px',
+                          display: "flex",
+                          alignItems: "center",
+                          paddingLeft: "39px",
+                          paddingRight: "39px",
+                          paddingTop: "7px",
+                          paddingBottom: "6px",
+                          borderRadius: "50px",
                         }}
                       >
-                        <text style={{ color: 'white' }}>{item.label}</text>
+                        <text style={{ color: "white" }}>{item.label}</text>
                       </div>
                     ) : (
                       <div
                         onClick={() => setColorOption(item.color)}
                         style={{
-                          backgroundColor: '#e8e8e8 ',
-                          display: 'flex',
-                          alignItems: 'center',
-                          paddingLeft: '39px',
-                          paddingRight: '39px',
-                          paddingTop: '7px',
-                          paddingBottom: '6px',
-                          borderRadius: '50px',
+                          backgroundColor: "#e8e8e8 ",
+                          display: "flex",
+                          alignItems: "center",
+                          paddingLeft: "39px",
+                          paddingRight: "39px",
+                          paddingTop: "7px",
+                          paddingBottom: "6px",
+                          borderRadius: "50px",
                         }}
                       >
-                        <text style={{ color: 'black' }}>{item.label}</text>
+                        <text style={{ color: "black" }}>{item.label}</text>
                       </div>
                     )
                   )}
@@ -323,15 +354,15 @@ const Task = (props) => {
                       <div
                         onClick={() => setModeOption(item.value)}
                         style={{
-                          backgroundColor: 'black',
-                          display: 'flex',
-                          alignItems: 'center',
-                          paddingLeft: '53px',
-                          paddingRight: '53px',
-                          paddingTop: '7px',
-                          paddingBottom: '6px',
-                          borderRadius: '50px',
-                          color: 'white',
+                          backgroundColor: "black",
+                          display: "flex",
+                          alignItems: "center",
+                          paddingLeft: "53px",
+                          paddingRight: "53px",
+                          paddingTop: "7px",
+                          paddingBottom: "6px",
+                          borderRadius: "50px",
+                          color: "white",
                         }}
                       >
                         {item.label}
@@ -340,14 +371,14 @@ const Task = (props) => {
                       <div
                         onClick={() => setModeOption(item.value)}
                         style={{
-                          backgroundColor: '#e8e8e8 ',
-                          display: 'flex',
-                          alignItems: 'center',
-                          paddingLeft: '53px',
-                          paddingRight: '53px',
-                          paddingTop: '7px',
-                          paddingBottom: '6px',
-                          borderRadius: '50px',
+                          backgroundColor: "#e8e8e8 ",
+                          display: "flex",
+                          alignItems: "center",
+                          paddingLeft: "53px",
+                          paddingRight: "53px",
+                          paddingTop: "7px",
+                          paddingBottom: "6px",
+                          borderRadius: "50px",
                         }}
                       >
                         {item.label}
@@ -361,11 +392,11 @@ const Task = (props) => {
                 <text>Time</text>
                 <div
                   style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
                     // backgroundColor: 'red',
-                    width: '75%',
+                    width: "75%",
                   }}
                 >
                   <Dropdown
@@ -384,8 +415,8 @@ const Task = (props) => {
               <TextAndComponentContainer>
                 <div
                   style={{
-                    display: 'flex',
-                    flexDirection: 'column',
+                    display: "flex",
+                    flexDirection: "column",
                   }}
                 >
                   <text>Sound</text>
@@ -399,29 +430,29 @@ const Task = (props) => {
                         onClick={() => alert(item.label)}
                         style={{
                           backgroundColor: colorOption,
-                          display: 'flex',
-                          alignItems: 'center',
-                          paddingLeft: '39px',
-                          paddingRight: '39px',
-                          paddingTop: '7px',
-                          paddingBottom: '6px',
-                          borderRadius: '50px',
+                          display: "flex",
+                          alignItems: "center",
+                          paddingLeft: "39px",
+                          paddingRight: "39px",
+                          paddingTop: "7px",
+                          paddingBottom: "6px",
+                          borderRadius: "50px",
                         }}
                       >
-                        <text style={{ color: 'white' }}>{item.label}</text>
+                        <text style={{ color: "white" }}>{item.label}</text>
                       </div>
                     ) : (
                       <div
                         onClick={() => alert(item.label)}
                         style={{
-                          backgroundColor: '#e8e8e8 ',
-                          display: 'flex',
-                          alignItems: 'center',
-                          paddingLeft: '39px',
-                          paddingRight: '39px',
-                          paddingTop: '7px',
-                          paddingBottom: '6px',
-                          borderRadius: '50px',
+                          backgroundColor: "#e8e8e8 ",
+                          display: "flex",
+                          alignItems: "center",
+                          paddingLeft: "39px",
+                          paddingRight: "39px",
+                          paddingTop: "7px",
+                          paddingBottom: "6px",
+                          borderRadius: "50px",
                         }}
                       >
                         {item.label}
@@ -434,8 +465,8 @@ const Task = (props) => {
               <TextAndComponentContainer>
                 <div
                   style={{
-                    display: 'flex',
-                    flexDirection: 'column',
+                    display: "flex",
+                    flexDirection: "column",
                   }}
                 >
                   <text>Icon</text>
@@ -448,14 +479,14 @@ const Task = (props) => {
                       <div
                         onClick={() => setSelectedIcon(item.iconCode)}
                         style={{
-                          backgroundColor: 'black',
-                          marginLeft: '2px',
-                          marginRight: '2px',
-                          paddingLeft: '15px',
-                          paddingRight: '15px',
-                          paddingTop: '5px',
-                          paddingBottom: '5px',
-                          borderRadius: '50px',
+                          backgroundColor: "black",
+                          marginLeft: "2px",
+                          marginRight: "2px",
+                          paddingLeft: "15px",
+                          paddingRight: "15px",
+                          paddingTop: "5px",
+                          paddingBottom: "5px",
+                          borderRadius: "50px",
                         }}
                       >
                         <FontAwesomeIcon
@@ -468,14 +499,14 @@ const Task = (props) => {
                       <div
                         onClick={() => setSelectedIcon(item.iconCode)}
                         style={{
-                          backgroundColor: 'transparent',
-                          marginLeft: '2px',
-                          marginRight: '2px',
-                          paddingLeft: '15px',
-                          paddingRight: '15px',
-                          paddingTop: '5px',
-                          paddingBottom: '5px',
-                          borderRadius: '50px',
+                          backgroundColor: "transparent",
+                          marginLeft: "2px",
+                          marginRight: "2px",
+                          paddingLeft: "15px",
+                          paddingRight: "15px",
+                          paddingTop: "5px",
+                          paddingBottom: "5px",
+                          borderRadius: "50px",
                         }}
                       >
                         <FontAwesomeIcon size="sm" icon={item.iconCode} />
@@ -485,7 +516,7 @@ const Task = (props) => {
                 />
               </TextAndComponentContainer>
 
-              <TextAndComponentContainer>
+              {/* <TextAndComponentContainer>
                 <div
                   style={{
                     display: 'flex',
@@ -516,13 +547,13 @@ const Task = (props) => {
                     </div>
                   }
                 />
-              </TextAndComponentContainer>
+              </TextAndComponentContainer> */}
 
-              <TextAndComponentContainer>
+              {/* <TextAndComponentContainer>
                 <div
                   style={{
-                    display: 'flex',
-                    flexDirection: 'column',
+                    display: "flex",
+                    flexDirection: "column",
                   }}
                 >
                   <text>Filter</text>
@@ -539,9 +570,9 @@ const Task = (props) => {
                   content={
                     <div
                       style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
                       }}
                     >
                       <text style={{ marginRight: 8 }}>Add Filter</text>
@@ -549,13 +580,18 @@ const Task = (props) => {
                     </div>
                   }
                 />
-              </TextAndComponentContainer>
+                <Dropdown
+                  dropOptions={handleGetUserFilters()}
+                  dropValue={(value) => setSelectedHour(value.value)}
+                  dropPlace="Filter"
+                />
+              </TextAndComponentContainer> */}
 
-              <TextAndComponentContainer>
+              {/* <TextAndComponentContainer>
                 <div
                   style={{
-                    display: 'flex',
-                    flexDirection: 'column',
+                    display: "flex",
+                    flexDirection: "column",
                   }}
                 >
                   <text>SubTask</text>
@@ -572,9 +608,9 @@ const Task = (props) => {
                   content={
                     <div
                       style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
                       }}
                     >
                       <text style={{ marginRight: 8 }}>Add SubTask</text>
@@ -582,7 +618,7 @@ const Task = (props) => {
                     </div>
                   }
                 />
-              </TextAndComponentContainer>
+              </TextAndComponentContainer> */}
 
               <SubmitBottomButtons
                 cancelFunction={() => setOpenModal(false)}
@@ -603,19 +639,19 @@ const Task = (props) => {
         <div
           style={{
             // backgroundColor: 'orange',
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
           <AddItemContainer
             itemAreaText={`Today Tasks ${showUserTasks.length}`}
             onPressFunction={() => {
               setOpenModal(true);
-              setTaskName('');
-              setColorOption('#14D378');
-              setSelectedIcon('anchor');
+              setTaskName("");
+              setColorOption("#14D378");
+              setSelectedIcon("anchor");
             }}
             buttonText="New Task"
           />
@@ -629,17 +665,17 @@ const Task = (props) => {
             paddingBottom: 25,
             // display: 'flex',
             // flexDirection: 'column',
-            overflowY: 'scroll',
+            overflowY: "scroll",
             height: 525,
           }}
         >
           {showUserTasks.map((item) => (
             <div
               style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-around',
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-around",
                 marginBottom: 25,
               }}
             >
@@ -660,7 +696,7 @@ const Task = (props) => {
                   </div>
                 }
                 styleBtn={{
-                  backgroundColor: '#D3E7F6',
+                  backgroundColor: "#D3E7F6",
                   paddingLeft: 14,
                   paddingRight: 14,
                   borderRadius: 10,
@@ -679,17 +715,17 @@ const Task = (props) => {
                       paddingRight: 25,
                       paddingBottom: 10,
                       paddingLeft: 25,
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
                     }}
                   >
                     <div
                       style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
                       }}
                     >
                       <FontAwesomeIcon
@@ -698,14 +734,14 @@ const Task = (props) => {
                         icon={item.icon}
                       />
                       <div style={{ marginLeft: 16 }}>
-                        <div style={{ color: 'white', fontSize: 23 }}>
+                        <div style={{ color: "white", fontSize: 23 }}>
                           {item.name}
                         </div>
                         <div
                           style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
                           }}
                         >
                           <FontAwesomeIcon
@@ -715,7 +751,7 @@ const Task = (props) => {
                           />
                           <text
                             style={{
-                              color: 'white',
+                              color: "white",
                               fontSize: 13,
                               marginLeft: 3,
                             }}
@@ -741,7 +777,7 @@ const Task = (props) => {
                   </div>
                 }
                 styleBtn={{
-                  backgroundColor: '#FADADA',
+                  backgroundColor: "#FADADA",
                   paddingLeft: 15,
                   paddingRight: 15,
                   borderRadius: 10,
@@ -757,8 +793,8 @@ const Task = (props) => {
 
   return (
     <div style={{ backgroundColor: null, width: 570 }}>
-      { openModal ? CustomModalView() : null }
-      { showUserTasks.length > 0 ? ShowTasksView() : CreateTaskView() }
+      {openModal ? CustomModalView() : null}
+      {showUserTasks.length > 0 ? ShowTasksView() : CreateTaskView()}
     </div>
   );
 };
