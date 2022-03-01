@@ -48,7 +48,7 @@ const StudyModulesContainer = ({
             position: 'absolute',
             top: 100,
             width: fixed ? '75%' : 300,
-            backgroundColor: 'pink',
+            backgroundColor: 'transparent',
           }}
         >
           {leftContentDescription}
