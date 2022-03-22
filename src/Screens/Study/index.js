@@ -121,7 +121,7 @@ const Study = () => {
           }
           rightContentTop={
             <>
-              <FontAwesomeIcon
+              {/* <FontAwesomeIcon
                 color="white"
                 icon="bell"
                 size="2x"
@@ -142,7 +142,7 @@ const Study = () => {
                   top: '90px',
                   left: '360px',
                 }}
-              />
+              /> */}
             </>
           }
           leftContentTitle="Flash Cards"
@@ -174,7 +174,7 @@ const Study = () => {
           // leftContentDescription="Intervalos de estudio para qur"
           rightContentTop={
             <>
-              <FontAwesomeIcon
+              {/* <FontAwesomeIcon
                 color="white"
                 icon="bell"
                 size="2x"
@@ -195,7 +195,7 @@ const Study = () => {
                   top: '90px',
                   left: '360px',
                 }}
-              />
+              /> */}
             </>
           }
           toRoute={`/pomodoros`}

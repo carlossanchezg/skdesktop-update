@@ -228,7 +228,7 @@ const Pomodoro = () => {
           // leftContentDescription="Intervalos de estudio para qur"
           rightContentTop={
             <>
-              <FontAwesomeIcon
+              {/* <FontAwesomeIcon
                 color="white"
                 icon="bell"
                 size="3x"
@@ -249,7 +249,7 @@ const Pomodoro = () => {
                   top: "110px",
                   left: "920px",
                 }}
-              />
+              /> */}
             </>
           }
         />

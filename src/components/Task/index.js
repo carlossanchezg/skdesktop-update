@@ -764,7 +764,7 @@ const Task = (props) => {
                         </div>
                       </div>
                     </div>
-                    <div>filter</div>
+                    {/* <div>filter</div> */}
                   </div>
                 }
                 styleBtn={{ padding: 0, borderRadius: 100 }}

@@ -63,7 +63,7 @@ const FlashCards = () => {
           // leftContentDescription="Estudia con tarjetas"
           rightContentTop={
             <>
-              <FontAwesomeIcon
+              {/* <FontAwesomeIcon
                 color="white"
                 icon="bell"
                 size="3x"
@@ -84,7 +84,7 @@ const FlashCards = () => {
                   top: '110px',
                   left: '920px',
                 }}
-              />
+              /> */}
             </>
           }
         />

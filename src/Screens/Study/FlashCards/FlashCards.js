@@ -338,7 +338,7 @@ const FlashCards = () => {
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  backgroundColor: "lightpink",
+                  // backgroundColor: "lightpink",
                   width: "90%",
                   alignItems: "center",
                 }}
@@ -355,7 +355,7 @@ const FlashCards = () => {
               </div>
               <div
                 style={{
-                  backgroundColor: "red",
+                  // backgroundColor: "red",
                   height: "100px",
                   display: "flex",
                   flexDirection: "column",
@@ -368,7 +368,7 @@ const FlashCards = () => {
               </div>
               <img
                 style={{
-                  backgroundColor: "blue",
+                  // backgroundColor: "blue",
                   width: "200px",
                 }}
                 src={frontCardImageUrl}
@@ -387,7 +387,7 @@ const FlashCards = () => {
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  backgroundColor: "lightpink",
+                  // backgroundColor: "lightpink",
                   width: "90%",
                   alignItems: "center",
                 }}
@@ -404,7 +404,7 @@ const FlashCards = () => {
               </div>
               <div
                 style={{
-                  backgroundColor: "red",
+                  // backgroundColor: "red",
                   height: "100px",
                   display: "flex",
                   flexDirection: "column",
@@ -416,7 +416,7 @@ const FlashCards = () => {
               </div>
               <img
                 style={{
-                  backgroundColor: "blue",
+                  // backgroundColor: "blue",
                   width: "200px",
                 }}
                 src={backCardImage}
