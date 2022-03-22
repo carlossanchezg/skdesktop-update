@@ -146,7 +146,7 @@ const Study = () => {
             </>
           }
           leftContentTitle="Flash Cards"
-          leftContentDescription="Estudia con tarjetas"
+          // leftContentDescription="Estudia con tarjetas"
           toRoute={`/flash-cards`}
         />
         <StudyModule
@@ -171,7 +171,7 @@ const Study = () => {
             </>
           }
           leftContentTitle="Pomodoro"
-          leftContentDescription="Intervalos de estudio para qur"
+          // leftContentDescription="Intervalos de estudio para qur"
           rightContentTop={
             <>
               <FontAwesomeIcon

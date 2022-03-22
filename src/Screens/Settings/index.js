@@ -17,6 +17,8 @@ import { hourOptions } from "../../utils";
 
 import { useTranslation } from "react-i18next";
 
+import { Link } from "react-router-dom";
+
 const { shell } = require("electron"); // Import at top of page..
 const Settings = () => {
   const [t, i18n] = useTranslation("global");
@@ -80,14 +82,14 @@ const Settings = () => {
       label: "Ingles",
       value: "en",
     },
-    {
-      label: "Portuges",
-      value: "po",
-    },
-    {
-      label: "Franses",
-      value: "fr",
-    },
+    // {
+    //   label: "Portuges",
+    //   value: "po",
+    // },
+    // {
+    //   label: "Franses",
+    //   value: "fr",
+    // },
   ];
 
   return (
@@ -100,36 +102,98 @@ const Settings = () => {
           height: 605,
         }}
       >
-        <div>
-          <h2>Skool Premium</h2>
-          <Button
-            onPress={() => shell.openExternal("http://theskool.info/premium")}
-            content={
-              <div
-                style={{
-                  // backgroundColor: "orange",
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                {/* <span
-                  class="material-icons-round"
+        {realmApp.currentUser?.customData.isPremium ? null : (
+          <div>
+            <h2>Skool Premium</h2>
+            <Button
+              onPress={() => shell.openExternal("http://theskool.info/premium")}
+              content={
+                <div
                   style={{
-                    fontSize: 33,
-                    color: "white",
+                    // backgroundColor: "orange",
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
                   }}
                 >
-                  school
-                </span> */}
-                <text className={styles.premium_button_text}>Premium</text>
-              </div>
-            }
-            customClassName={styles.premium_button}
-          />
-        </div>
+                  {/* <span
+                    class="material-icons-round"
+                    style={{
+                      fontSize: 33,
+                      color: "white",
+                    }}
+                  >
+                    school
+                  </span> */}
+                  <text className={styles.premium_button_text}>Premium</text>
+                </div>
+              }
+              customClassName={styles.premium_button}
+            />
+          </div>
+        )}
+
         <div>
           <h2>Account</h2>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {realmApp.currentUser?.customData.isPremium ? (
+              <div
+                style={{
+                  width: 110,
+                  backgroundColor: "#D2E0F5",
+                  borderRadius: 9,
+                  paddingTop: 8,
+                  paddingBottom: 8,
+                  paddingLeft: 15,
+                  paddingRight: 15,
+                  marginBottom: 20,
+                }}
+              >
+                <text style={{ color: "#3780F2", fontWeight: "bold" }}>
+                  Premium User
+                </text>
+              </div>
+            ) : null}
+            <text
+              style={{
+                color: "gray",
+                fontSize: 14,
+                marginBottom: 4,
+              }}
+            >
+              Username
+            </text>
+            <Input
+              inputValue={userName}
+              examplePlaceHolder="Username"
+              inputValueFunction={(e) => {}}
+              inputType="email"
+              customMarginBottom={25}
+              customDisable={true}
+            />
+            <text
+              style={{
+                color: "gray",
+                fontSize: 14,
+                marginBottom: 4,
+              }}
+            >
+              Email
+            </text>
+            <Input
+              inputValue={email}
+              examplePlaceHolder="Email"
+              inputValueFunction={(e) => {}}
+              inputType="email"
+              customMarginBottom={25}
+              customDisable={true}
+            />
+          </div>
           <Button
             onPress={() => shell.openExternal("http://theskool.info")}
             content={
@@ -158,32 +222,37 @@ const Settings = () => {
             customClassName={styles.edit_account_button}
           />
           <div>
-            <text style={{
-              fontSize: 9,
-            }}>Login in browser to edit your account.</text>
+            <text
+              style={{
+                fontSize: 9,
+              }}
+            >
+              Login in browser to edit your account.
+            </text>
           </div>
-          {/* <div style={{
-            
+          <div style={{
+            marginTop: 15
           }}>
-            <Input
-              inputValue={userName}
-              examplePlaceHolder="Ex; Math"
-              inputValueFunction={(e) => {}}
-              inputType="email"
-            />
-            <Input
-              inputValue={email}
-              examplePlaceHolder="Ex; Math"
-              inputValueFunction={(e) => {}}
-              inputType="email"
-            />
-          </div> */}
-          <h3
+            <Link
+              to="/"
+              onClick={handleOut}
+              style={{
+                color: "lightblue",
+                cursor: "pointer",
+                textDecoration: "none",
+                fontSize: 20,
+                fontWeight: "bold",
+              }}
+            >
+              Logout
+            </Link>
+          </div>
+          {/* <h3
             onClick={handleOut}
             style={{ color: "lightblue", cursor: "pointer" }}
           >
             Logout
-          </h3>
+          </h3> */}
         </div>
         <div>
           <h2>{t("settings.languaje")}</h2>

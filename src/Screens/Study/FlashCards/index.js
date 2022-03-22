@@ -60,7 +60,7 @@ const FlashCards = () => {
             </>
           }
           leftContentTitle="Flash Cards"
-          leftContentDescription="Estudia con tarjetas"
+          // leftContentDescription="Estudia con tarjetas"
           rightContentTop={
             <>
               <FontAwesomeIcon

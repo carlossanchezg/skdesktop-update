@@ -1,52 +1,57 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from "react";
 
-import Button from '../Button';
-import styles from '../../Screens/Auth/Auth.module.css';
-import AuthModal from '../Modal';
-import Input from '../Input';
-import { Link } from 'react-router-dom';
-import Realm from 'realm';
+import Button from "../Button";
+import styles from "../../Screens/Auth/Auth.module.css";
+import AuthModal from "../Modal";
+import Input from "../Input";
+import { Link } from "react-router-dom";
+import Realm from "realm";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import RealmContext from '../../contexts/RealmContext';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import RealmContext from "../../contexts/RealmContext";
+import BrandLogoLight from "../../assets/images/brandLogoLight.png";
 
-import { isLoggedIn, getRealmApp, getRealm } from '../../services/realm';
-import { isEmpty } from '../../utils';
+import { isLoggedIn, getRealmApp, getRealm } from "../../services/realm";
+import { isEmpty } from "../../utils";
 
+const { shell } = require("electron"); // Import at top of page..
 const AddButton = ({ onPress, text }) => {
-  const {realmApp, setRealmApp, realm, setRealm} = useContext(RealmContext);
+  const { realmApp, setRealmApp, realm, setRealm } = useContext(RealmContext);
 
   const [openModal, setOpenModal] = useState(false);
 
   const [haveAccount, setHaveAccount] = useState(true);
 
-  const [name, setName] = useState('');
-  const [userName, setUserName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
 
   const handleLogin = async (emaill, passwordd) => {
-    if (isEmpty(emaill)){
-      alert('Email is required');
+    if (isEmpty(emaill)) {
+      alert("Email is required");
       return;
     }
-    if (isEmpty(passwordd)){
-      alert('Password is required');
+    if (isEmpty(passwordd)) {
+      alert("Password is required");
       return;
     }
     setAuthLoading(true);
     try {
-      const credentials = Realm.Credentials.emailPassword(emaill.toLowerCase(), passwordd);
+      const credentials = Realm.Credentials.emailPassword(
+        emaill.toLowerCase(),
+        passwordd
+      );
       const user = await realmApp.logIn(credentials);
       if (user && user.isLoggedIn) {
         setRealmApp(getRealmApp());
         setRealm(await getRealm());
         setOpenModal(false);
-      } else alert('Login failed');
+      } else alert("Login failed");
     } catch (err) {
       alert(err.message);
-      console.error('Failed to log in', err);
+      console.error("Failed to log in", err);
     }
     setAuthLoading(false);
   };
@@ -54,58 +59,72 @@ const AddButton = ({ onPress, text }) => {
   const HandleAuth = () => {
     return (
       <AuthModal
-      open={openModal}
-      customHeight={haveAccount ? '45%' : '60%'}
-      customWidth="30%"
-      customLeft="32%"
-      customTop={haveAccount ? '23%' : '18%'}
-      overlayClick={(value) => setOpenModal(true)}
-      content={
-        <div style={{
-          display: 'flex',
-          height: '100%', width: '100%', 
-          flexDirection: 'column',
-          alignItems: 'flex-end'}}>
-          <div style={{marginBottom: 10, cursor: 'pointer'}} onClick={() => {setOpenModal(false)}}>
-            <FontAwesomeIcon size="lg" icon="times" color="black" />
-          </div>
-          <div style={{flex: 1, width: '100%'}}>
-            {
-              haveAccount ? (
+        open={openModal}
+        customHeight={haveAccount ? "45%" : "60%"}
+        customWidth="30%"
+        customLeft="32%"
+        customTop={haveAccount ? "23%" : "18%"}
+        overlayClick={(value) => setOpenModal(true)}
+        content={
+          <div
+            style={{
+              display: "flex",
+              height: "100%",
+              width: "100%",
+              flexDirection: "column",
+              alignItems: "flex-end",
+            }}
+          >
+            <div
+              style={{ marginBottom: 10, cursor: "pointer" }}
+              onClick={() => {
+                setOpenModal(false);
+              }}
+            >
+              <FontAwesomeIcon size="lg" icon="times" color="black" />
+            </div>
+            <div style={{ flex: 1, width: "100%" }}>
+              {haveAccount ? (
                 <div
                   style={{
-                    backgroundColor: 'lightcoral',
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    width: '100%',
-                    justifyContent: 'space-around',
+                    // backgroundColor: "lightcoral",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    width: "100%",
+                    justifyContent: "space-around",
                   }}
                 >
                   <div
                     style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'lightcyan',
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      // backgroundColor: "lightcyan",
                     }}
                   >
-                    <FontAwesomeIcon
+                    {/* <FontAwesomeIcon
                       size="lg"
                       icon="graduation-cap"
                       color="black"
+                    /> */}
+                    <img
+                      src={BrandLogoLight}
+                      width={30}
+                      style={{ marginRight: 4 }}
                     />
+
                     <text className={styles.skool}>Skool</text>
                   </div>
                   <div
                     style={{
-                      backgroundColor: 'lightpink',
-                      height: '46%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-around',
+                      // backgroundColor: "lightpink",
+                      height: "55%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-around",
                     }}
                   >
                     <div>
@@ -133,50 +152,96 @@ const AddButton = ({ onPress, text }) => {
                       />
                       <div
                         style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
                         }}
                       >
-                        <Link to='#' onClick={() => setHaveAccount(false)}>
+                        <Link
+                          to="#"
+                          onClick={() =>
+                            shell.openExternal("http://theskool.info/")
+                          }
+                          style={{
+                            color: "gray",
+                            cursor: "pointer",
+                            textDecoration: "none",
+                            fontSize: 11,
+                            fontWeight: "bold",
+                          }}
+                        >
                           Don’t have Account ? Signin
                         </Link>
-      
-                        <Link to='#'>Forget Password ?</Link>
+
+                        <Link
+                          to="#"
+                          onClick={() =>
+                            shell.openExternal("http://theskool.info/")
+                          }
+                          style={{
+                            color: "gray",
+                            cursor: "pointer",
+                            textDecoration: "none",
+                            fontSize: 11,
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Forget Password ?
+                        </Link>
                       </div>
                     </div>
                   </div>
-      
+
                   <Button
                     styleBtn={{
                       width: 150,
                       height: 50,
                       borderRadius: 100,
+                      backgroundColor: "black",
                     }}
-                    content={ !authLoading ? <div>Login</div> : <div>Loading...</div>}
-                    onPress={_ => handleLogin(email, password)}
+                    content={
+                      !authLoading ? (
+                        <div
+                          style={{
+                            color: "white",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Login
+                        </div>
+                      ) : (
+                        <div
+                          style={{
+                            color: "white",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Loading...
+                        </div>
+                      )
+                    }
+                    onPress={(_) => handleLogin(email, password)}
                   />
-      
                 </div>
               ) : (
                 <div
                   style={{
-                    backgroundColor: 'lightcoral',
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    width: '100%',
-                    justifyContent: 'space-around',
+                    backgroundColor: "lightcoral",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    width: "100%",
+                    justifyContent: "space-around",
                   }}
                 >
                   <div
                     style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'lightcyan',
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: "lightcyan",
                     }}
                   >
                     <FontAwesomeIcon
@@ -188,11 +253,11 @@ const AddButton = ({ onPress, text }) => {
                   </div>
                   <div
                     style={{
-                      backgroundColor: 'lightpink',
-                      height: haveAccount ? '46%' : '65%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-around',
+                      backgroundColor: "lightpink",
+                      height: haveAccount ? "46%" : "65%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-around",
                     }}
                   >
                     <div>
@@ -244,16 +309,16 @@ const AddButton = ({ onPress, text }) => {
                       />
                       <div
                         style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
                         }}
                       >
-                        <Link to='#' onClick={() => setHaveAccount(true)}>
+                        <Link to="#" onClick={() => setHaveAccount(true)}>
                           Have Account ? Login
                         </Link>
-      
-                        <Link to='#'>Forget Password ?</Link>
+
+                        <Link to="#">Forget Password ?</Link>
                       </div>
                     </div>
                   </div>
@@ -268,22 +333,21 @@ const AddButton = ({ onPress, text }) => {
                     />
                   </Link>
                 </div>
-              )
-            }
+              )}
+            </div>
           </div>
-        </div>
-      }
+        }
       />
-    )
-  }
+    );
+  };
   return (
     <>
-    {HandleAuth()}
+      {HandleAuth()}
       <Button
-        onPress={ isLoggedIn(realmApp) ? onPress : _ => setOpenModal(true)}
+        onPress={isLoggedIn(realmApp) ? onPress : (_) => setOpenModal(true)}
         content={
           <div>
-            <text style={{ color: 'white', marginRight: 5 }}>{text}</text>
+            <text style={{ color: "white", marginRight: 5 }}>{text}</text>
             <FontAwesomeIcon size="sm" icon="plus" color="white" />
           </div>
         }
@@ -292,7 +356,7 @@ const AddButton = ({ onPress, text }) => {
           height: 40,
           paddingLeft: 33,
           paddingRight: 33,
-          backgroundColor: '#0B6DF6',
+          backgroundColor: "#0B6DF6",
         }}
       />
     </>
@@ -300,4 +364,3 @@ const AddButton = ({ onPress, text }) => {
 };
 
 export default AddButton;
-

@@ -9,6 +9,8 @@ import { useLocation, useParams, Link } from "react-router-dom";
 
 import { Colors } from "../../styles";
 
+import BrandLogoLight from "../../assets/images/brandLogoLight.png";
+
 const LeftMenuBar = () => {
   let location = useLocation();
   let { courseName, courseId } = useParams();
@@ -28,7 +30,8 @@ const LeftMenuBar = () => {
 
     location.pathname === "/study" ||
     location.pathname === "/notifications-study" ||
-    location.pathname === `/notifications-study-course/${courseName}/${courseId}` ||
+    location.pathname ===
+      `/notifications-study-course/${courseName}/${courseId}` ||
     location.pathname === "/flash-cards" ||
     location.pathname === `/flash-cards-course/${courseName}/${courseId}` ||
     location.pathname === "/pomodoros" ||
@@ -64,10 +67,15 @@ const LeftMenuBar = () => {
           justifyContent: "center",
         }}
       >
-        <FontAwesomeIcon
+        {/* <FontAwesomeIcon
           icon="graduation-cap"
           color="black"
           style={{ marginBottom: 30 }}
+        /> */}
+        <img
+          src={BrandLogoLight}
+          width={30}
+          style={{ marginRight: 4, marginBottom: 30 }}
         />
         <div
           style={{
@@ -105,6 +113,9 @@ const LeftMenuBar = () => {
         </div>
       </div>
       <Button
+        styleBtn={{
+          backgroundColor: "transparent",
+        }}
         content={
           <Link to="/settings">
             <FontAwesomeIcon icon="cog" color="black" size="2x" />

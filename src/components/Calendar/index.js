@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import Button from '../Button';
+import Button from "../Button";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { Colors } from '../../styles';
+import { Colors } from "../../styles";
 
-import axios from 'axios';
+import axios from "axios";
 
-import styles from './Calendar.module.css';
+import styles from "./Calendar.module.css";
 
 const Calendar = ({ passYear, passMonth, passDay, passMonthName }) => {
   const [modifiableCurrentYearNumber, setModifiableCurrentYearNumber] =
@@ -21,7 +21,7 @@ const Calendar = ({ passYear, passMonth, passDay, passMonthName }) => {
   const [currentYear, setCurrentYear] = useState(0);
   const [currentMonth, setCurrentMonth] = useState(0);
   const [currentDay, setCurrentDay] = useState(0);
-  const [monthName, setMonthName] = useState('');
+  const [monthName, setMonthName] = useState("");
   const [days, setDays] = useState([]);
 
   const [pressDay, setPressDay] = useState(false);
@@ -45,10 +45,10 @@ const Calendar = ({ passYear, passMonth, passDay, passMonthName }) => {
       try {
         const userRes = await axios.get(GET_USER_TASKS_URI);
         setDayTasks(userRes.data);
-        console.log('llamada a tasks!!!!!!!!');
+        console.log("llamada a tasks!!!!!!!!");
         return userRes;
       } catch (error) {
-        console.log('ERR GET USER TASKS', error);
+        console.log("ERR GET USER TASKS", error);
       }
     };
     handleGetUserTasks();
@@ -57,43 +57,43 @@ const Calendar = ({ passYear, passMonth, passDay, passMonthName }) => {
   useEffect(() => {
     switch (modifiableCurrentMonthNumber) {
       case 0:
-        setMonthName('Enero');
+        setMonthName("Enero");
         break;
       case 1:
-        setMonthName('Feb');
+        setMonthName("Feb");
         break;
       case 2:
-        setMonthName('Mar');
+        setMonthName("Mar");
         break;
       case 3:
-        setMonthName('Ab');
+        setMonthName("Ab");
         break;
       case 4:
-        setMonthName('May');
+        setMonthName("May");
         break;
       case 5:
-        setMonthName('Jun');
+        setMonthName("Jun");
         break;
       case 6:
-        setMonthName('Jul');
+        setMonthName("Jul");
         break;
       case 7:
-        setMonthName('Ago');
+        setMonthName("Ago");
         break;
       case 8:
-        setMonthName('Sep');
+        setMonthName("Sep");
         break;
       case 9:
-        setMonthName('Oct');
+        setMonthName("Oct");
         break;
       case 10:
-        setMonthName('Nov');
+        setMonthName("Nov");
         break;
       case 11:
-        setMonthName('Dic');
+        setMonthName("Dic");
         break;
       default:
-        setMonthName('0000');
+        setMonthName("0000");
         break;
     }
 
@@ -245,13 +245,13 @@ const Calendar = ({ passYear, passMonth, passDay, passMonthName }) => {
   };
 
   const daysWeek = [
-    { day: 'D', id: 1 },
-    { day: 'L', id: 2 },
-    { day: 'M', id: 3 },
-    { day: 'MI', id: 4 },
-    { day: 'J', id: 5 },
-    { day: 'V', id: 6 },
-    { day: 'S', id: 7 },
+    { day: "D", id: 1 },
+    { day: "L", id: 2 },
+    { day: "M", id: 3 },
+    { day: "MI", id: 4 },
+    { day: "J", id: 5 },
+    { day: "V", id: 6 },
+    { day: "S", id: 7 },
   ];
 
   console.log(days);
@@ -271,9 +271,9 @@ const Calendar = ({ passYear, passMonth, passDay, passMonthName }) => {
     passDay(day);
     passMonth(modifiableCurrentMonthNumber);
     passYear(modifiableCurrentYearNumber);
-    console.log('dayyy', day);
-    console.log('monthhh', month);
-    console.log('yeaarrrr', year);
+    console.log("dayyy", day);
+    console.log("monthhh", month);
+    console.log("yeaarrrr", year);
     //   handleShowTasks();
   };
 
@@ -290,46 +290,52 @@ const Calendar = ({ passYear, passMonth, passDay, passMonthName }) => {
         height: days.length > 35 ? 415 : 320,
         padding: 25,
         borderRadius: 20,
-        justifyContent: 'space-between',
+        justifyContent: "space-between",
       }}
     >
       <div style={{ backgroundColor: null }}>
         <div
           style={{
             // backgroundColor: 'linen',
-            display: 'flex',
+            display: "flex",
             paddingLeft: 16,
             paddingRight: 16,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            flexDirection: "row",
+            justifyContent: "space-between",
             marginBottom: 15,
-            alignItems: 'center',
+            alignItems: "center",
           }}
         >
           <Button
+            styleBtn={{
+              backgroundColor: "transparent",
+            }}
             onPress={handleLastMonth}
             content={<FontAwesomeIcon icon="chevron-left" color="black" />}
           />
           <div
             style={{
               // backgroundColor: 'gray',
-              display: 'flex',
-              flexDirection: 'row',
+              display: "flex",
+              flexDirection: "row",
               width: 70,
-              justifyContent: 'space-between',
+              justifyContent: "space-between",
             }}
           >
             <text>{monthName}</text>
             <text>{modifiableCurrentYearNumber}</text>
           </div>
           <Button
+            styleBtn={{
+              backgroundColor: "transparent",
+            }}
             onPress={handleNextMonth}
             content={<FontAwesomeIcon icon="chevron-right" color="black" />}
           />
         </div>
         <div className={styles.calendar_week}>
           {daysWeek.map((item) => (
-            <div style={{ textAlign: 'center', marginBottom: 15 }}>
+            <div style={{ textAlign: "center", marginBottom: 15 }}>
               {item.day}
             </div>
           ))}
@@ -346,15 +352,15 @@ const Calendar = ({ passYear, passMonth, passDay, passMonthName }) => {
               content={
                 <div
                   style={{
-                    textAlign: 'center',
+                    textAlign: "center",
                     height: 47,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                     borderRadius: 100,
                   }}
                 >
-                  <text style={{ color: '#C0C0C0' }}>{item.day}</text>
+                  <text style={{ color: "#C0C0C0" }}>{item.day}</text>
                 </div>
               }
               styleBtn={{
@@ -372,13 +378,13 @@ const Calendar = ({ passYear, passMonth, passDay, passMonthName }) => {
               content={
                 <div
                   style={{
-                    textAlign: 'center',
+                    textAlign: "center",
                     color: Colors.background,
-                    backgroundColor: 'blue',
+                    backgroundColor: "blue",
                     height: 47,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                     borderRadius: 100,
                   }}
                 >
@@ -402,13 +408,13 @@ const Calendar = ({ passYear, passMonth, passDay, passMonthName }) => {
               content={
                 <div
                   style={{
-                    textAlign: 'center',
+                    textAlign: "center",
                     color: Colors.background,
-                    backgroundColor: 'rgb(225, 225, 225, 1)',
+                    backgroundColor: "rgb(225, 225, 225, 1)",
                     height: 47,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                     borderRadius: 100,
                   }}
                 >
@@ -427,21 +433,21 @@ const Calendar = ({ passYear, passMonth, passDay, passMonthName }) => {
               content={
                 <div
                   style={{
-                    textAlign: 'center',
-                    color: 'black',
+                    textAlign: "center",
+                    color: "black",
                     height: 47,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                     borderRadius: 100,
-                    flexDirection: 'column',
+                    flexDirection: "column",
                     // backgroundColor: 'blue',
                   }}
                 >
                   <text style={{ marginTop: 4 }}>{item.day}</text>
                   <div
                     style={{
-                      backgroundColor: 'red',
+                      backgroundColor: "red",
                       height: 5,
                       borderRadius: 100,
                       width: 5,
@@ -462,12 +468,12 @@ const Calendar = ({ passYear, passMonth, passDay, passMonthName }) => {
               content={
                 <div
                   style={{
-                    textAlign: 'center',
-                    color: 'black',
+                    textAlign: "center",
+                    color: "black",
                     height: 47,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                     borderRadius: 100,
                   }}
                 >

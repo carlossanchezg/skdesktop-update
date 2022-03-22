@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import Button from '../Button';
+import Button from "../Button";
 
 const SubmitBottomButtons = ({
   leftButtonText,
@@ -12,35 +12,40 @@ const SubmitBottomButtons = ({
   return (
     <div
       style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
         // backgroundColor: 'red',
-        justifyContent: 'space-evenly',
+        justifyContent: "space-evenly",
         marginTop: 35,
       }}
     >
       <Button
         styleBtn={{
-          // backgroundColor: null,
+          backgroundColor: "transparent",
           borderWidth: 2,
-          borderColor: 'black',
+          borderColor: "gray",
+          borderStyle: "solid",
           borderRadius: 100,
           width: 143,
           height: 49,
         }}
         onPress={cancelFunction}
-        content={<text>{leftButtonText ? leftButtonText : 'Cancel'}</text>}
+        content={
+          <text style={{ color: "gray" }}>
+            {leftButtonText ? leftButtonText : "Cancel"}
+          </text>
+        }
       />
       <Button
         styleBtn={{
-          backgroundColor: submitBg,
+          backgroundColor: "#0B6DF6",
           borderRadius: 100,
           width: 143,
           height: 49,
         }}
         onPress={submitFunction}
-        content={<text>{submitButtonText}</text>}
+        content={<text style={{ color: "white" }}>{submitButtonText}</text>}
       />
     </div>
   );

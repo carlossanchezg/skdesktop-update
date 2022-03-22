@@ -54,7 +54,7 @@ const Task = (props) => {
   const [modeOption, setModeOption] = useState(0);
   const [selectedHour, setSelectedHour] = useState(null);
   const [selectedMinutes, setSelectedMinutes] = useState(null);
-  const [selectedIcon, setSelectedIcon] = useState("anchor");
+  const [selectedIcon, setSelectedIcon] = useState('baseball-ball');
 
   const [userFilters, setUserFilters] = useState([]);
 
@@ -240,7 +240,7 @@ const Task = (props) => {
               setOpenModal(true);
               setTaskName("");
               setColorOption("#14D378");
-              setSelectedIcon("anchor");
+              setSelectedIcon('baseball-ball');
             }}
             buttonText="New Task"
           />

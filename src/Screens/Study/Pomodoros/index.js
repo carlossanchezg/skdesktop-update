@@ -225,7 +225,7 @@ const Pomodoro = () => {
             </>
           }
           leftContentTitle="Pomodoro"
-          leftContentDescription="Intervalos de estudio para qur"
+          // leftContentDescription="Intervalos de estudio para qur"
           rightContentTop={
             <>
               <FontAwesomeIcon
@@ -264,7 +264,13 @@ const Pomodoro = () => {
         >
           <AddItemContainer
             itemAreaText="Pomodoros"
-            onPressFunction={() => setOpenModal(true)}
+            onPressFunction={() => {
+              setOpenModal(true);
+
+              setPomodoroName("");
+              setPomodoroConcentrationTime("");
+              setPomodoroColorPosition(0);
+            }}
             buttonText="New Pomodoro"
           />
           <CustomModal
@@ -423,7 +429,7 @@ const Pomodoro = () => {
                       flexDirection: "row",
                       alignItems: "center",
                       width: "100%",
-                      cursor: 'pointer'
+                      cursor: "pointer",
                     }}
                     onClick={() => {
                       setOpenPomodoroModal(true);
@@ -456,7 +462,7 @@ const Pomodoro = () => {
                           justifyContent: "space-between",
                           // backgroundColor: 'red',
                           width: 150,
-                          marginTop: 8
+                          marginTop: 8,
                         }}
                       >
                         <div
@@ -504,16 +510,18 @@ const Pomodoro = () => {
                       </div>
                     </div>
                   </div>
-                  <MenuIcon
+                  {/* <MenuIcon
                     noPaddingRight={true}
                     iconColor="black"
                     elementName="Pomodoro"
-                  />
+                  /> */}
                 </div>
               ))}
             </div>
-          ) : (
+          ) : isLoggedIn(realmApp) ? (
             <Spinner enable={userPomodoros.length === 0 ? true : false} />
+          ) : (
+            <text>You need Login to access</text>
           )}
           {pomodoroModalView()}
         </div>

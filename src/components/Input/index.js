@@ -11,11 +11,14 @@ const Input = ({
   customWidth,
   customPaddingLeft,
   customBorderRadius,
+  customMarginBottom,
+  customDisable
 }) => {
   return (
     <input
       autoFocus
       required
+      disabled={customDisable}
       value={inputValue}
       type={inputType}
       name="inputEmail"
@@ -29,6 +32,7 @@ const Input = ({
         width: customWidth ? customWidth : null,
         borderRadius: customBorderRadius ? customBorderRadius : null,
         paddingLeft: customPaddingLeft ? customPaddingLeft : null,
+        marginBottom: customMarginBottom ? customMarginBottom : null
       }}
     />
   );

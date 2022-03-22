@@ -41,7 +41,7 @@ const CoursesList = ({ goPage }) => {
 
   const [courseName, setCourseName] = useState("");
   const [courseColorPosition, setCourseColorPosition] = useState(0);
-  const [courseIcon, setCourseIcon] = useState("atom");
+  const [courseIcon, setCourseIcon] = useState("baseball-ball");
 
   const [userCourses, setUserCourses] = useState([]);
 
@@ -51,7 +51,10 @@ const CoursesList = ({ goPage }) => {
 
       setUserCourses(courses);
 
-      console.log('courses', courses.map((item) => item));
+      console.log(
+        "courses",
+        courses.map((item) => item)
+      );
     }
   };
 
@@ -140,7 +143,7 @@ const CoursesList = ({ goPage }) => {
             setCourseToEditId("");
             setCourseName("");
             setCourseColorPosition(0);
-            setCourseIcon("atom");
+            setCourseIcon("baseball-ball");
           }}
           buttonText="New Course"
         />
@@ -238,7 +241,7 @@ const CoursesList = ({ goPage }) => {
                         <div
                           onClick={() => setCourseIcon(item.iconCode)}
                           style={{
-                            backgroundColor: "green",
+                            backgroundColor: "black",
                             marginLeft: "2px",
                             marginRight: "2px",
                             paddingLeft: "15px",
@@ -248,7 +251,11 @@ const CoursesList = ({ goPage }) => {
                             borderRadius: "50px",
                           }}
                         >
-                          <FontAwesomeIcon size="lg" icon={item.iconCode} />
+                          <FontAwesomeIcon
+                            size="sm"
+                            icon={item.iconCode}
+                            color="white"
+                          />
                         </div>
                       ) : (
                         <div
@@ -264,7 +271,7 @@ const CoursesList = ({ goPage }) => {
                             borderRadius: "50px",
                           }}
                         >
-                          <FontAwesomeIcon size="lg" icon={item.iconCode} />
+                          <FontAwesomeIcon size="sm" icon={item.iconCode} />
                         </div>
                       )
                     )}
@@ -291,46 +298,47 @@ const CoursesList = ({ goPage }) => {
           }
         />
       </div>
-      {userCourses.length > 0 ? <div className={styles.courses_container}>
-        {userCourses.map((item) => (
-          <div
-            className={styles.course_module}
-            style={{
-              backgroundImage: `linear-gradient(to bottom right, ${
-                courseColors[item.color].color1
-              }, ${courseColors[item.color].color2} 70%)`,
-            }}
-          >
-            <MenuIcon
-              elementName="Course"
-              iconColor="white"
-              onClickDelete={() => handleDeleteCourse(item._id)}
-              onClickEdit={() => {
-                setOpenModal(true);
-                setEditCourse(true);
-                setCourseToEditId(item._id);
-
-                setCourseName(item.name);
-                setCourseColorPosition(Number(item.color));
-                setCourseIcon(item.icon);
-              }}
-            />
+      {userCourses.length > 0 ? (
+        <div className={styles.courses_container}>
+          {userCourses.map((item) => (
             <div
+              className={styles.course_module}
               style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                padding: "0px 20px",
-                cursor: "pointer",
-                height: "30px",
+                backgroundImage: `linear-gradient(to bottom right, ${
+                  courseColors[item.color].color1
+                }, ${courseColors[item.color].color2} 70%)`,
               }}
             >
-              {/* <FontAwesomeIcon
+              <MenuIcon
+                elementName="Course"
+                iconColor="white"
+                onClickDelete={() => handleDeleteCourse(item._id)}
+                onClickEdit={() => {
+                  setOpenModal(true);
+                  setEditCourse(true);
+                  setCourseToEditId(item._id);
+
+                  setCourseName(item.name);
+                  setCourseColorPosition(Number(item.color));
+                  setCourseIcon(item.icon);
+                }}
+              />
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  padding: "0px 20px",
+                  cursor: "pointer",
+                  height: "30px",
+                }}
+              >
+                {/* <FontAwesomeIcon
                 onClick={() => alert('menu')}
                 icon="ellipsis-v"
                 color="white"
               /> */}
-            </div>
-            {/* <Link to={`/study/${goPage}/${item.name}/${item._id}`}>
+              </div>
+              {/* <Link to={`/study/${goPage}/${item.name}/${item._id}`}>
               <div className={styles.course_name_and_icon_course_container}>
                 <FontAwesomeIcon
                   icon={item.icon}
@@ -340,22 +348,27 @@ const CoursesList = ({ goPage }) => {
                 <div>{item.name}</div>
               </div>
             </Link> */}
-            <TextLink
-              goPage={`/${goPage}/${item.name}/${item._id}`}
-              content={
-                <div className={styles.course_name_and_icon_course_container}>
-                  <FontAwesomeIcon
-                    icon={item.icon}
-                    color="white"
-                    style={{ marginBottom: "5px" }}
-                  />
-                  <div>{item.name}</div>
-                </div>
-              }
-            />
-          </div>
-        ))}
-      </div> : <Spinner enable={userCourses.length === 0 ? true : false} />}
+              <TextLink
+                goPage={`/${goPage}/${item.name}/${item._id}`}
+                content={
+                  <div className={styles.course_name_and_icon_course_container}>
+                    <FontAwesomeIcon
+                      icon={item.icon}
+                      color="white"
+                      style={{ marginBottom: "5px" }}
+                    />
+                    <div>{item.name}</div>
+                  </div>
+                }
+              />
+            </div>
+          ))}
+        </div>
+      ) : isLoggedIn(realmApp) ? (
+        <Spinner enable={userCourses.length === 0 ? true : false} />
+      ) : (
+        <text>You need Login to access</text>
+      )}
     </div>
   );
 };
