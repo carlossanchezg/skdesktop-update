@@ -6,8 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { Colors } from "../../styles";
 
-import axios from "axios";
-
 import styles from "./Calendar.module.css";
 
 const Calendar = ({ passYear, passMonth, passDay, passMonthName }) => {
@@ -36,22 +34,6 @@ const Calendar = ({ passYear, passMonth, passDay, passMonthName }) => {
     setCurrentYear(date.getFullYear());
     setCurrentMonth(date.getMonth());
     setCurrentDay(date.getDate());
-    // handleShowTasks();
-  }, []);
-
-  useEffect(() => {
-    const handleGetUserTasks = async () => {
-      const GET_USER_TASKS_URI = `http://localhost:3500/mydomain/users/60fb478bee70afa9fe3d485d/tasks/`;
-      try {
-        const userRes = await axios.get(GET_USER_TASKS_URI);
-        setDayTasks(userRes.data);
-        console.log("llamada a tasks!!!!!!!!");
-        return userRes;
-      } catch (error) {
-        console.log("ERR GET USER TASKS", error);
-      }
-    };
-    handleGetUserTasks();
   }, []);
 
   useEffect(() => {
@@ -254,17 +236,6 @@ const Calendar = ({ passYear, passMonth, passDay, passMonthName }) => {
     { day: "S", id: 7 },
   ];
 
-  console.log(days);
-
-  //   const {deleteExpired} = useContext(SettingsOptionsContext);
-
-  //   const handleShowTasks = async () => {
-  //     const realm = await getRealm();
-  //     const data = realm.objects('Task');
-
-  //     setDayTasks(data);
-  //   };
-
   const handlePressDay = (day, month, year) => {
     setPressDay(true);
     setModifiableCurrentDayNumber(day);
@@ -274,14 +245,8 @@ const Calendar = ({ passYear, passMonth, passDay, passMonthName }) => {
     console.log("dayyy", day);
     console.log("monthhh", month);
     console.log("yeaarrrr", year);
-    //   handleShowTasks();
   };
 
-  //   useEffect(() => {
-  //     deleteExpired ? handleShowTasks() : null;
-  //     console.log(deleteExpired);
-  //   }, [deleteExpired]);
-  //   console.log('el expired en calendar', deleteExpired);
   return (
     <div
       style={{

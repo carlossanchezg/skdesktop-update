@@ -15,12 +15,8 @@ import TextAndComponentContainer from "../../../components/Modal/textAndComponen
 import Input from "../../../components/Input";
 import SubmitBottomButtons from "../../../components/Modal/submitBottomButtons";
 import SwitchSelector from "../../../components/SwitchSelector";
-import Button from "../../../components/Button";
 import DropDown from "../../../components/DropDown";
-import MenuIcon from "../../../components/MenuIcon";
 import Spinner from "../../../components/Spinner";
-
-import TextLink from "../../../components/TextLink";
 
 import { Colors } from "../../../styles";
 
@@ -225,35 +221,7 @@ const Pomodoro = () => {
             </>
           }
           leftContentTitle="Pomodoro"
-          // leftContentDescription="Intervalos de estudio para qur"
-          rightContentTop={
-            <>
-              {/* <FontAwesomeIcon
-                color="white"
-                icon="bell"
-                size="3x"
-                style={{
-                  transform: "rotate(-20deg)",
-                  position: "absolute",
-                  top: "50px",
-                  left: "960px",
-                }}
-              />
-              <FontAwesomeIcon
-                color="white"
-                icon="redo"
-                size="3x"
-                style={{
-                  transform: "rotate(20deg)",
-                  position: "absolute",
-                  top: "110px",
-                  left: "920px",
-                }}
-              /> */}
-            </>
-          }
         />
-        {/* <CoursesList goPage="notifications-study" /> */}
         <div
           style={{
             display: "flex",
@@ -510,11 +478,6 @@ const Pomodoro = () => {
                       </div>
                     </div>
                   </div>
-                  {/* <MenuIcon
-                    noPaddingRight={true}
-                    iconColor="black"
-                    elementName="Pomodoro"
-                  /> */}
                 </div>
               ))}
             </div>

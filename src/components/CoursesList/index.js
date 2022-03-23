@@ -27,8 +27,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { courseColors, icons } from "../../utils";
 
-import { Link } from "react-router-dom";
-
 import styles from "./CoursesList.module.css";
 
 const CoursesList = ({ goPage }) => {

@@ -4,8 +4,6 @@ import Container from '../../../components/Container';
 import StudyModule from '../../../components/StudyModulesContainer';
 import CoursesList from '../../../components/CoursesList';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import styles from './FlashCardsCourses.module.css';
 
 const FlashCards = () => {
@@ -60,33 +58,6 @@ const FlashCards = () => {
             </>
           }
           leftContentTitle="Flash Cards"
-          // leftContentDescription="Estudia con tarjetas"
-          rightContentTop={
-            <>
-              {/* <FontAwesomeIcon
-                color="white"
-                icon="bell"
-                size="3x"
-                style={{
-                  transform: 'rotate(-20deg)',
-                  position: 'absolute',
-                  top: '50px',
-                  left: '960px',
-                }}
-              />
-              <FontAwesomeIcon
-                color="white"
-                icon="redo"
-                size="3x"
-                style={{
-                  transform: 'rotate(20deg)',
-                  position: 'absolute',
-                  top: '110px',
-                  left: '920px',
-                }}
-              /> */}
-            </>
-          }
         />
         <CoursesList goPage="flash-cards-course" />
       </div>

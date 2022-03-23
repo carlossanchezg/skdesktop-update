@@ -4,7 +4,6 @@ import SettingsOptionsContext from "../../contexts/SettingsOptionsContext";
 import RealmContext from "../../contexts/RealmContext";
 
 import AddItemContainer from "../AddItemContainer";
-import AddButton from "../AddButton";
 import Button from "../Button";
 import CustomModal from "../Modal";
 import TitleAndIconClose from "../Modal/titleAndIconClose";
@@ -27,10 +26,6 @@ import {
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import styles from "./Task.module.css";
-
-import axios from "axios";
-
 import Modal from "react-modal";
 import { isLoggedIn } from "../../services/realm";
 import { v4 as uuidv4 } from "uuid";
@@ -43,8 +38,6 @@ const Task = (props) => {
   const { realmApp, setRealmApp, realm, setRealm } = useContext(RealmContext);
 
   const [openModal, setOpenModal] = useState(false);
-  const [filtersModal, setFiltersModal] = useState(false);
-  const [undoModal, setUndoModal] = useState(false);
 
   const [userTasks, setUserTasks] = useState([]);
   const [showUserTasks, setShowUserTasks] = useState([]);
@@ -55,8 +48,6 @@ const Task = (props) => {
   const [selectedHour, setSelectedHour] = useState(null);
   const [selectedMinutes, setSelectedMinutes] = useState(null);
   const [selectedIcon, setSelectedIcon] = useState('baseball-ball');
-
-  const [userFilters, setUserFilters] = useState([]);
 
   const refreshTasks = (_) => {
     if (realm && isLoggedIn(realmApp)) {
@@ -73,7 +64,6 @@ const Task = (props) => {
 
   useEffect(() => {
     refreshTasks();
-    // console.log('DELETE EXPIDER CONTEX EN TASK', deleteExpired);
   }, [deleteExpired, realm]);
 
   useEffect(() => {
@@ -247,31 +237,6 @@ const Task = (props) => {
         )}
       </div>
     );
-  };
-
-  const handleGetUserFilters = () => {
-    const sorted_filters = [];
-    if (realm && isLoggedIn(realmApp)) {
-      const filters = realm.objects("Filter");
-
-      filters.map((filter) =>
-        sorted_filters.push({
-          value: filter,
-          text: filter.name,
-          icon: (
-            <FontAwesomeIcon size="sm" icon={filter.icon} color="black" />
-          ),
-        })
-      );
-
-      // setUserFilters(sorted_filters);
-
-      console.log(
-        "filters",
-        sorted_filters.map((item) => item)
-      );
-    }
-    return sorted_filters;
   };
 
   const CustomModalView = () => {
@@ -516,110 +481,6 @@ const Task = (props) => {
                 />
               </TextAndComponentContainer>
 
-              {/* <TextAndComponentContainer>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <text>Pomodoro</text>
-                  <text style={{ fontSize: 8 }}>optional</text>
-                </div>
-
-                <Button
-                  styleBtn={{
-                    width: 335,
-                    height: 35,
-                    borderRadius: 10,
-                    paddingLeft: 20,
-                  }}
-                  content={
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <text style={{ marginRight: 8 }}>Add Pomodoro</text>
-                      <FontAwesomeIcon size="xs" icon="clock" />
-                    </div>
-                  }
-                />
-              </TextAndComponentContainer> */}
-
-              {/* <TextAndComponentContainer>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <text>Filter</text>
-                  <text style={{ fontSize: 8 }}>optional</text>
-                </div>
-
-                <Button
-                  styleBtn={{
-                    width: 335,
-                    height: 35,
-                    borderRadius: 10,
-                    paddingLeft: 20,
-                  }}
-                  content={
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                      }}
-                    >
-                      <text style={{ marginRight: 8 }}>Add Filter</text>
-                      <FontAwesomeIcon size="xs" icon="filter" />
-                    </div>
-                  }
-                />
-                <Dropdown
-                  dropOptions={handleGetUserFilters()}
-                  dropValue={(value) => setSelectedHour(value.value)}
-                  dropPlace="Filter"
-                />
-              </TextAndComponentContainer> */}
-
-              {/* <TextAndComponentContainer>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <text>SubTask</text>
-                  <text style={{ fontSize: 8 }}>optional</text>
-                </div>
-
-                <Button
-                  styleBtn={{
-                    width: 335,
-                    height: 35,
-                    borderRadius: 10,
-                    paddingLeft: 20,
-                  }}
-                  content={
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                      }}
-                    >
-                      <text style={{ marginRight: 8 }}>Add SubTask</text>
-                      <FontAwesomeIcon size="xs" icon="code-branch" />
-                    </div>
-                  }
-                />
-              </TextAndComponentContainer> */}
-
               <SubmitBottomButtons
                 cancelFunction={() => setOpenModal(false)}
                 submitFunction={(e) => handleCreateTask(e)}
@@ -764,7 +625,6 @@ const Task = (props) => {
                         </div>
                       </div>
                     </div>
-                    {/* <div>filter</div> */}
                   </div>
                 }
                 styleBtn={{ padding: 0, borderRadius: 100 }}

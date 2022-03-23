@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './Auth.module.css';
 
 import Container from '../../components/Container';
@@ -253,16 +253,3 @@ const Auth = () => {
 };
 
 export default Auth;
-{
-  /* <div className={styles.test}>
-<div className={styles.container_login}>
-  <div>
-    <FontAwesomeIcon icon="graduation-cap" color="black" />
-    <text className={styles.skool}>Skool</text>
-    <Link style={{ color: 'red' }} to={`/tasks`}>
-      TASKS SCREEN
-    </Link>
-  </div>
-</div>
-</div> */
-}

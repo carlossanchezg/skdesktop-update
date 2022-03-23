@@ -1,6 +1,5 @@
 import React from "react";
 
-import Button from "../Button";
 import AddButton from "../AddButton";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -1,22 +1,14 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { HashRouter as Router, Route, Routes, Link } from "react-router-dom";
 
-import logo from "./logo.svg";
-import "./App.css";
 import Realm from "realm";
 
 import TasksScreen from "./Screens/Tasks";
 
-import RoutinesScreen from "./Screens/Routines";
-import Community from "./Screens/Routines/Community";
-
 import StudyScreen from "./Screens/Study";
-import NotificationsSudyCourses from "./Screens/Study/NotificationsSudy";
-import NotificationsSudy from "./Screens/Study/NotificationsSudy/Notifications";
 import FlashCardsCourses from "./Screens/Study/FlashCards";
 import FlashCards from "./Screens/Study/FlashCards/FlashCards";
 import Pomodoros from "./Screens/Study/Pomodoros";
-import Exams from "./Screens/Study/Exams";
 import Settings from "./Screens/Settings";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -211,24 +203,13 @@ function App() {
           <div>
             <Routes>
               <Route path="/" element={<TasksScreen/>} />
-              <Route path="/routines" element={<RoutinesScreen/>} />
-              <Route path="/community" element={<Community/>} />
               <Route path="/study" element={<StudyScreen/>} />
-              <Route
-                path="/notifications-study"
-                element={<NotificationsSudyCourses/>}
-              />
-              <Route
-                path="/notifications-study-course/:courseName/:courseId"
-                element={<NotificationsSudy/>}
-              />
               <Route path="/flash-cards" element={<FlashCardsCourses/>} />
               <Route
                 path="/flash-cards-course/:courseName/:courseId"
                 element={<FlashCards/>}
               />
               <Route path="/pomodoros" element={<Pomodoros/>} />
-              <Route path="/exams" element={<Exams/>} />
               <Route path="/settings" element={<Settings/>} />
             </Routes>
           </div>

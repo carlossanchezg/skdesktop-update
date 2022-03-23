@@ -6,7 +6,6 @@ import RealmContext from "../../contexts/RealmContext";
 
 import { isLoggedIn } from "../../services/realm";
 
-import AddButton from "../AddButton";
 import Button from "../Button";
 
 import AddItemContainer from "../AddItemContainer";
@@ -19,8 +18,6 @@ import SubmitBottomButtons from "../Modal/submitBottomButtons";
 import SwitchSelector from "../SwitchSelector";
 
 import Modal from "react-modal";
-
-import axios from "axios";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Colors } from "../../styles";
